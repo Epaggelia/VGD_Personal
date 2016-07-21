@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Day 2</Title>
+		<script type="text/javascript" 
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
+		</script>		
+		<script type="text/javascript">
+			$(document).ready(function(){
+			
+				function doSomething (a, b){
+					console.log("Doing math with: A="+a+" B="+b);
+					
+					console.log ("A + B = "+ (a + b)+"\n"+"A - B = "+ (a - b)
+								+"\n"+
+								"A x B = "+ (a*b)+"\n"+"A / B = "+(a/b).toFixed(2)
+								+"\n"+
+								"Square root of A = "+(Math.sqrt(a)).toFixed(2)+"\n"+"Square root of B = "+(Math.sqrt(b)).toFixed(2)
+								);
+				
+					var c = [0];
+					var text = "";
+					for (i = 1; i <= 12; i++)
+					{
+						c[i] = (a*i);
+						text = text+(i==1 ? "": ", ")+c[i];
+					}
+					
+					console.log("'A' times 1 to 12 = "+text);
+					text = "";
+					
+					if (a != b){
+						for (i = 1; i <= 12; i++)
+						{
+							c[i] = (b*i);
+							text = text+(i==1 ? "": ", ")+c[i];
+						}
+						
+						console.log("'B' times 1 to 12 = "+text);
+					}
+				}
+				
+				doSomething(237,5);
+				
+				////////////////////////////////////////////////////////////////////////////////////////////////////
+				//----------------Array and loop stuff------------------------------------------------------------//
+				////////////////////////////////////////////////////////////////////////////////////////////////////
+				
+				
+				
+				
+
+				
+				////////////////////////////////////////////////////////////////////////////////////////////////////
+				//----------------Object stuff--------------------------------------------------------------------//
+				////////////////////////////////////////////////////////////////////////////////////////////////////
+				
+				/*
+				function rocket (engineCount, thrust, wings){
+					this.engineCount = engineCount;
+					this.thrust = thrust;
+					this.wings = wings;
+					this.engineOn = false;
+					
+					this.turnEngineOn = function () {
+						this.engineOn = true;
+						alert ("Engines are now on!");
+					}
+					
+					this.status = function() {
+						alert("Rocket status:\n"
+							+"Engine Count: "+this.engineCount+"\n"
+							+"Thrust: "+this.thrust+"\n"
+							+"Wings: "+this.wings+"\n"
+							+"Engines On: "+this.engineOn);
+					}
+				}
+				
+				var rocket = new rocket(3,7500,6);
+				rocket.turnEngineOn ();
+				rocket.status();
+				*/
+				
+				for (i=100; i>0; i--){
+					console.log (i);
+				
+				}
+				
+			});
+		</script
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Introduction to JavaScript</Title>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js">
+		</script>		
+		
+		<script type="text/javascript">
+			$(document).ready(function()	
+				{
+					//this is a comment
+					
+					/*
+					Multi-line comment!!
+					more random words
+					*/
+				
+					////////////////////////////////////////////////////////////////////////////////
+					//----------If-Statement------------------------------------------------------//
+					////////////////////////////////////////////////////////////////////////////////
+					var userAge = 20;
+					
+					
+					if (userAge > 0 && userAge < 18) 
+					{
+						alert("A");					
+					}else if (userAge >= 18)
+					{
+						alert("B");
+					};
+					////////////////////////////////////////////////////////////////////////////////
+					//----------------------------------------------------------------------------//
+					////////////////////////////////////////////////////////////////////////////////
+				
+					/* 
+					var x,y,z;
+						x=2;
+						y=5;
+						z=x*y;						
+					
+					alert("You are "+userAge+".");
+					alert("Random math!  "+x+" x "+y+" = "+z);
+					alert("24-4 = "+(24-4));
+					alert("100/2 = "+100/2);
+					alert("24x60x60 = "+24*60*60);
+					*/
+					
+					
+					////////////////////////////////////////////////////////////////////////////////
+					//----------Function----------------------------------------------------------//
+					////////////////////////////////////////////////////////////////////////////////
+					var firstName, lastName;
+						firstName = "Stewart";
+						lastName = "Holmes";
+					
+					function nameFormat (A, B) {
+						return A+" "+B;
+					}
+					
+					alert (nameFormat(firstName,lastName));
+					////////////////////////////////////////////////////////////////////////////////
+					//----------------------------------------------------------------------------//
+					////////////////////////////////////////////////////////////////////////////////
+					
+					
+				}
+			);
+		</script>		
+	</head>
+
+	<body>
+		<br>
+		Hello, World!
+		<br>
+		<br>
+		<br>
+		<br>
+		<!-- this is html comments -->
+		<div>
+			<h4>Mini-Title</h4>
+			<p>This is a paragraph. It is a short paragraph but that still counts.</p>
+		</div>
+		
+	</body>
+</html>
