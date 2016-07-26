@@ -30,9 +30,9 @@ function gameLogic() {
 	var alienFrequency = 100;
 	var alienTimer = 0;
 	
-	//alien spawn timing
-	var missileFireRate = 20;
-	var missileTimer = 20;
+	//missile spawn timing
+	var missileFireRate = 20;						//Personal method
+	var missileTimer = 20;							//Personal method
 	
 	//startup info
 	var assetsToLoad =  [];
@@ -154,15 +154,15 @@ function gameLogic() {
 		//locks cannon movement onto canvas width
 		cannon.x = Math.max(0,Math.min(cannon.x + cannon.vx, canvas.width - cannon.w));
 		
-		missileTimer++; 
-		if (shoot)
-		{
-			if (missileTimer >= missileFireRate)
-			{
+		missileTimer++;								//Personal method
+		if (shoot)									//Personal method
+		{											//Personal method
+			if (missileTimer >= missileFireRate)	//Personal method
+			{										//Personal method
 				fireMissile();
-				missileTimer = 0;
-			}
-		}
+				missileTimer = 0;					//Personal method
+			}										//Personal method
+		}											//Personal method
 		
 		for (i=0;i<missiles.length;i++)
 		{
@@ -184,6 +184,19 @@ function gameLogic() {
 		{
 			var alien = aliens[i];
 			
+			for (j=0;j<missiles.length;j++)
+			{
+				var missile = missiles[j];
+				
+				if (hitTestRectangle(missile, alien.sprite))
+				{
+					removeObject(missile, sprites);
+					removeObject(missile, missiles);
+					destroyAlien(alien);
+					j -= 1;
+					console.log("meow");
+				}
+			}
 			if (alien.state == alien.NORMAL)
 			{
 				alien.sprite.y += alien.sprite.vy;
@@ -245,6 +258,28 @@ function gameLogic() {
 		
 		sprites.push(missile);
 		missiles.push(missile);
+	}
+	
+	function destroyAlien(alien)
+	{
+		alien.state = alien.EXPLODED;
+		
+		setTimeout(function (){
+			removeObject(alien.sprite, sprites);
+			removeObject(alien, aliens);
+		},1000);
+	}
+	
+	
+	function removeObject(objectToRemove, array)
+	{
+		var index = array.indexOf(objectToRemove);
+		
+		//indexOf will return -1 if it could not find the object
+		if (index != -1)
+		{
+			array.splice(index,1);
+		}
 	}
 	
 	update();
