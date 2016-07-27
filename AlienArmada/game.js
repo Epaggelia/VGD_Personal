@@ -84,7 +84,7 @@ function gameLogic() {
 	var gameOverMessage = new MessageObject();
 		gameOverMessage.font = "normal bold 20px emulogic";
 		gameOverMessage.fontStyle = "White";
-		gameOverMessage.x = 75;
+		gameOverMessage.x = 90;
 		gameOverMessage.y = 120;
 		gameOverMessage.visible = false;
 		
