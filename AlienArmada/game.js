@@ -2,6 +2,15 @@ function gameLogic() {
 	var canvas = document.querySelector("canvas");
 	var ctx = canvas.getContext("2d");
 	
+	var music = document.querySelector("#music");
+	music.addEventListener("canplaythrough", loadHandler);
+	
+	var shootSFX = document.querySelector("#shoot");
+	shootSFX.addEventListener("canplaythrough", loadHandler);
+	
+	var explosionSFX = document.querySelector("#explosion");
+	explosionSFX.addEventListener("canplaythrough", loadHandler);
+	
 	//create new aliens
 	var AlienObject = function () {
 		this.sprite = new SpriteObject();
@@ -49,6 +58,13 @@ function gameLogic() {
 	image.addEventListener("load", loadHandler);
 	assetsToLoad.push(image);
 	
+	music.load();
+	assetsToLoad.push(music);
+	shootSFX.load();
+	assetsToLoad.push(shootSFX);
+	explosionSFX.load();
+	assetsToLoad.push(explosionSFX);
+	
 	var sprites = []; // array for drawing all sprites
 	var aliens = []; // array for updating aliens
 	var missiles = []; // array for updating missiles
@@ -95,10 +111,16 @@ function gameLogic() {
 	function loadHandler (){
 		assetsLoaded += 1;
 		
+		console.log(assetsLoaded, assetsToLoad.length);
+		
 		if (assetsLoaded == assetsToLoad.length)
 		{
 			gameState = PLAYING;
 			image.removeEventListener("load", loadHandler); 
+			music.removeEventListener("canplaythrough", loadHandler); 
+			shootSFX.removeEventListener("canplaythrough", loadHandler); 
+			explosionSFX.removeEventListener("canplaythrough", loadHandler); 
+			music.play();
 			
 			//key down input reader
 			window.addEventListener("keydown",function (e){
@@ -291,6 +313,9 @@ function gameLogic() {
 	
 	//create missile
 	function fireMissile() {
+		shootSFX.currentTime = 0;
+		shootSFX.play();
+		
 		var missile = new SpriteObject();
 		missile.srcX  = 96;
 		missile.srcW = 16;
@@ -310,6 +335,9 @@ function gameLogic() {
 	{
 		alien.state = alien.EXPLODED;
 		alien.update();
+		
+		explosionSFX.currentTime = 0;
+		explosionSFX.play();
 		
 		setTimeout(function (){
 			removeObject(alien.sprite, sprites);
