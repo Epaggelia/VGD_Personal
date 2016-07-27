@@ -8,6 +8,10 @@ function gameLogic() {
 		this.NORMAL = 1;
 		this.EXPLODED = 2;
 		this.state = this.NORMAL;
+		
+		this.update = function(){
+			this.sprite.srcX = this.state * this.sprite.srcW;
+		};
 	};
 	
 	//game states
@@ -25,6 +29,7 @@ function gameLogic() {
 	var moveLeft = false;
 	var moveRight = false;
 	var shoot = false;
+	var score = 0;
 	
 	//alien spawn timing
 	var alienFrequency = 100;
@@ -64,13 +69,27 @@ function gameLogic() {
 		cannon.x = canvas.width / 2 - cannon.halfWidth();
 		cannon.y = 280;
 		sprites.push(cannon);
+		
+	var messages = [];
+	var scoreMessageStartX = 440;	
+		
+	var scoreMessage = new MessageObject();
+		scoreMessage.font = "normal bold 30px emulogic";
+		scoreMessage.fontStyle = "White";
+		scoreMessage.x = scoreMessageStartX;
+		scoreMessage.y = 40;
+		scoreMessage.visible = true;
+		scoreMessage.text = "0";
 	
-	//clip explosion from image file
-	var explosion = new SpriteObject();
-		explosion.srcX = 64;
-		//incomplete
-		sprites.push(explosion);
-
+	var gameOverMessage = new MessageObject();
+		gameOverMessage.font = "normal bold 20px emulogic";
+		gameOverMessage.fontStyle = "White";
+		gameOverMessage.x = 75;
+		gameOverMessage.y = 120;
+		gameOverMessage.visible = false;
+		
+	messages.push(scoreMessage);
+	messages.push(gameOverMessage);
 	
 	//load check
 	function loadHandler (){
@@ -151,9 +170,11 @@ function gameLogic() {
 			cannon.vx = 0;
 		}
 		
+	
 		//locks cannon movement onto canvas width
 		cannon.x = Math.max(0,Math.min(cannon.x + cannon.vx, canvas.width - cannon.w));
 		
+		//missile spawn timer / firerate limiter
 		missileTimer++;								//Personal method
 		if (shoot)									//Personal method
 		{											//Personal method
@@ -177,6 +198,11 @@ function gameLogic() {
 		{
 			makeAlien();
 			alienTimer = 0;
+			
+			if (alienFrequency > 40)
+			{
+				alienFrequency -= 1;
+			}
 		}
 		
 		//alien movement
@@ -188,13 +214,15 @@ function gameLogic() {
 			{
 				var missile = missiles[j];
 				
-				if (hitTestRectangle(missile, alien.sprite))
-				{
-					removeObject(missile, sprites);
-					removeObject(missile, missiles);
-					destroyAlien(alien);
-					j -= 1;
-					console.log("meow");
+				if (alien.state == alien.NORMAL){
+					if (hitTestRectangle(missile, alien.sprite))
+					{
+						removeObject(missile, sprites);
+						removeObject(missile, missiles);
+						destroyAlien(alien);
+						j -= 1;
+						score += 1;
+					}
 				}
 			}
 			if (alien.state == alien.NORMAL)
@@ -210,7 +238,8 @@ function gameLogic() {
 	}
 	
 	function endGame(){
-		
+		gameOverMessage.visible =  true;
+		gameOverMessage.text = "EARTH DESTROYED";
 	}
 	
 	//clear canvas and fill with image clips
@@ -229,6 +258,23 @@ function gameLogic() {
 				Math.floor(sprite.x), Math.floor(sprite.y),	//draw position
 				sprite.w,sprite.h //draw size
 			);
+		}
+		
+		scoreMessage.x = scoreMessageStartX - ((score.toString().length)-1) * 30;
+		scoreMessage.text = score;
+		
+		for (i=0;i<messages.length;i++)
+		{
+			var message = messages[i];
+			
+			if (message.visible)
+			{
+				ctx.font = message.font;
+				ctx.fillStyle = message.fontStyle;
+				ctx.textBaseLine = message.textBaseLine;
+				
+				ctx.fillText (message.text, message.x, message.y);
+			}
 		}
 	}
 	
@@ -263,6 +309,7 @@ function gameLogic() {
 	function destroyAlien(alien)
 	{
 		alien.state = alien.EXPLODED;
+		alien.update();
 		
 		setTimeout(function (){
 			removeObject(alien.sprite, sprites);
