@@ -1,5 +1,5 @@
 // fill the world with walls
-function createWorld()
+function createWorld(wallType)
 {
 	console.log('Creating world...');
 
@@ -14,14 +14,30 @@ function createWorld()
 		}
 	}
 
-	// scatter some walls
-	for (var x = 0; x < worldWidth; x++)
-	{
-		for (var y = 0; y < worldHeight; y++)
-		{
-			if (Math.random() > 0.75)
-				world[x][y] = 1;
-		}
+	switch (wallType){
+		case "bolder":
+			for (var x = 0; x < worldWidth; x++)
+			{
+				for (var y = 0; y < worldHeight; y++)
+				{
+					if (x>5 && x <10)
+						if (y>5 && y<10)
+						world[x][y] = 1;
+					
+				}
+			}
+			break;
+		default :
+		// scatter some walls
+			for (var x = 0; x < worldWidth; x++)
+			{
+				for (var y = 0; y < worldHeight; y++)
+				{
+					if (Math.random() > 0.75)
+						world[x][y] = 1;
+				}
+			}
+			break;
 	}
 
 	// calculate initial possible path
@@ -35,7 +51,7 @@ function createWorld()
 		pathEnd = [Math.floor(Math.random() * worldWidth), Math.floor(Math.random() * worldHeight)];
 		
 		if (world[pathStart[0]][pathStart[1]] == 0) // checks if starting point is in a valid place (AKA not in a rock)
-			currentPath = findPath(world, pathStart, pathEnd); // assigns random start and end to current path if it counts as valid
+			currentPath = findPath(world, pathStart, pathEnd,true); // assigns random start and end to current path if it counts as valid
 		else
 			console.log("Starting point not valid...");
 	}
