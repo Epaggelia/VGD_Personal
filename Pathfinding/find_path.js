@@ -76,7 +76,7 @@ function findPath(world, pathStart, pathEnd, type, squeeze)
 				}
 			break;
 		default:
-			//limit to grid movement
+			//limit to basic grid movement
 			var distanceFunction = ManhattanDistance;
 			//no checking diagonals
 			var findNeighbours = function () {}; // empty
@@ -116,10 +116,10 @@ function findPath(world, pathStart, pathEnd, type, squeeze)
 				S = y + 1,
 				E = x + 1,
 				W = x - 1,
-				myN = N > -1 && canWalkHere(x, N),
-				myS = S < worldHeight && canWalkHere(x, S),
-				myE = E < worldWidth && canWalkHere(E, y),
-				myW = W > -1 && canWalkHere(W, y),
+				myN = N > -1 && canWalkHere(x, N),			//checks that location is on screen and valid
+				myS = S < worldHeight && canWalkHere(x, S), // ^
+				myE = E < worldWidth && canWalkHere(E, y),	// ^
+				myW = W > -1 && canWalkHere(W, y),			// ^ and returns true
 				result = [];
 		if (myN)
 			result.push({x: x, y: N});
@@ -183,9 +183,11 @@ function findPath(world, pathStart, pathEnd, type, squeeze)
 	// returns boolean value (world cell is available and open)
 	function canWalkHere(x, y)
 	{
-		return ((world[x] != null) &&
-				(world[x][y] != null) &&
-				(world[x][y] <= maxWalkableTileNum));
+		return ((world[x] != null) &&		//makes sure the x location is valid
+				(world[x][y] != null) &&	// ^ same for the y
+				(world[x][y] <= maxWalkableTileNum));	//maxWalkableTileNum == 0 
+														//0 is the # for the grass tiles that can be walked on
+														//if there were other textures that could work as floor this would allow them to work
 	};
 
 /////////////////////////////////////////////////////////////////////////

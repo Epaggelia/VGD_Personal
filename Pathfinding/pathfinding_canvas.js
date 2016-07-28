@@ -140,7 +140,7 @@ function canvasClick(e)
 	pathEnd = cell;			// set new end point where clicked
 
 	// calculate path
-	currentPath = findPath(world, pathStart, pathEnd,true);
+	currentPath = findPath(world, pathStart, pathEnd);
 	redraw();
 }
 
