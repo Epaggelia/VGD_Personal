@@ -5,7 +5,10 @@
 		body { padding:0; margin:0; height:100%; width:100%; }
 		div { font-family:arial; font-size:16px; font-weight:bold; text-align:center; }
 	</style>
-	<script type='text/javascript' src='astar-pathfinding-canvas.js'></script>
+	<script type='text/javascript' src='pathfinding_canvas.js'></script>
+	<script type='text/javascript' src='world_generator.js'></script>
+	<script type='text/javascript' src='redraw.js'></script>
+	<script type='text/javascript' src='find_path.js'></script>
 </head>
 
 <body onload='onload()'>
@@ -13,7 +16,7 @@
 	<div>
 		HTML5 Pathfinding Tutorial by 
 		<a href='http://twitter.com/McFunkypants'>@McFunkypants</a>
-		<input type='button' onClick='createWorld()' value='New World'>
+		<input type='button' onClick='createWorld(worldWidth,worldHeight,world)' value='New World'>
 	</div>
 	<div>
 		<canvas id="gameCanvas"></canvas>

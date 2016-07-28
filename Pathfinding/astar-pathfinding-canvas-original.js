@@ -25,7 +25,6 @@ var currentPath = [];
 
 // ensure that concole.log doesn't cause errors
 if (typeof console == "undefined")
-
 	var console = {log: function () {}};
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -344,16 +343,15 @@ function findPath(world, pathStart, pathEnd)
 				result.push({x: W, y: S});
 		}
 	}
+	
 	///////////////////////////////////////////////////////////////////////////////////
-
 	// returns boolean value (world cell is available and open)
 	function canWalkHere(x, y)
 	{
 		return ((world[x] != null) &&
 				(world[x][y] != null) &&
 				(world[x][y] <= maxWalkableTileNum));
-	}
-	;
+	};
 
 	///////////////////////////////////////////////////////////////////////////////////
 	// Node function, returns a new object with Node properties
@@ -401,7 +399,7 @@ function findPath(world, pathStart, pathEnd)
 			// temp integer variables used in the calculations
 			var length, max, min, i, j;
 			// iterate through the open list until none are left
-			while (length == Open.length)
+			while (length = Open.length)
 			{
 				max = worldSize;
 				min = -1;
@@ -422,7 +420,7 @@ function findPath(world, pathStart, pathEnd)
 					do
 					{
 						result.push([myPath.x, myPath.y]);
-					} while (myPath == myPath.Parent);
+					} while (myPath = myPath.Parent);
 					// clear the working arrays
 					AStar = Closed = Open = [];
 					// we want to return start to finish
@@ -461,4 +459,6 @@ function findPath(world, pathStart, pathEnd)
 		return calculatePath();
 	}
 } // end of findPath() function
+
+onload();
    
