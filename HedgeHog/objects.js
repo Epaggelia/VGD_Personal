@@ -9,8 +9,17 @@ var SpriteObject = function () {
 	this.srcW = 32;
 	this.srcH = 32;
 	
+	this.ax = 0; //acceleration on the x-axis
+	this.ay = 0; //acceleration on the y-axis
 	this.vx = 0;
 	this.vy = 0;
+	
+	this.friction = 0.96;
+	this.bounce = -0.7;
+	this.gravity = 0.3;
+	
+	this.jumpForce = -10;
+	this.isOnGround = undefined;
 	
 	this.visible = true;
 	
