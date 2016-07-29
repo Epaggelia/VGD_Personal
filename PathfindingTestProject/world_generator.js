@@ -33,7 +33,8 @@ function createWorld(wallType)
 				for (var y = 0; y < worldHeight; y++)
 				{
 					//borderwalls
-					if (x==0)
+					if (x>=0 && x<=worldWidth/16)
+						console.log (worldWidth/16);
 						if (y>0 && y<=worldHeight)
 							world[x][y] = 1;
 					

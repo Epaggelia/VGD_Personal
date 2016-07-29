@@ -41,7 +41,7 @@ function loaded()
 {
 	console.log('Spritesheet loaded.');
 	spritesheetLoaded = true;
-	createWorld();
+	createWorld("level_one");
 }
 
 function redraw()

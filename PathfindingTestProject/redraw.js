@@ -19,8 +19,8 @@ function drawLand() {
 			// draw it
 			//ctx.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 			ctx.drawImage(spritesheet,
-					spriteNum * tileWidth, 0,
-					tileWidth, tileHeight,
+					spriteNum * 32, 0,
+					32, 32,
 					x * tileWidth, y * tileHeight,
 					tileWidth, tileHeight);
 		}
@@ -44,8 +44,8 @@ function drawPath() {
 		}
 
 		ctx.drawImage(spritesheet,
-				spriteNum * tileWidth, 0,
-				tileWidth, tileHeight,
+				spriteNum * 32, 0,
+				32, 32,
 				currentPath[rp][0] * tileWidth,
 				currentPath[rp][1] * tileHeight,
 				tileWidth, tileHeight);
