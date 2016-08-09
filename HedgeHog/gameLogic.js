@@ -202,6 +202,7 @@ function gameLogic() {
 							hedgehog.sprite.y = row * SIZE;
 							hedgehog.sprite.w = 64;
 							hedgehog.sprite.h = 64;
+							hedgehog.sprite.vx = hedgehog.speed;
 							sprites.push(hedgehog.sprite);
 							hogs.push(hedgehog);
 							break;
@@ -331,9 +332,50 @@ function gameLogic() {
 			}
 		}
 
-		for (var i = 0; i < hogs.length; i++)
+		for (i = 0; i < hogs.length; i++)
 		{
 			var hog = hogs[i];
+
+			if (hog.state == hog.NORMAL)
+			{
+				hog.sprite.x += hog.sprite.vx;
+				hog.sprite.y += hog.sprite.vy;
+			}
+
+			if (Math.floor(hog.sprite.x) % SIZE == 0 && Math.floor(hog.sprite.y) % SIZE == 0)
+			{
+				var hogColumn = Math.floor(hog.sprite.x / SIZE);
+				var hogRow = Math.floor(hog.sprite.y / SIZE);
+
+				if (hogRow < ROWS - 1)
+				{
+					var spaceBelowLeft = map[hogRow + 1] [hogColumn - 1];
+					var spaceBelowRight = map[hogRow + 1] [hogColumn + 1];
+
+					if (spaceBelowLeft != BOX || spaceBelowRight != BOX)
+					{
+						hog.sprite.vx *= -1;
+					}
+
+					if (hogColumn > 0)
+					{
+						var spaceLeft = map[hogRow][hogColumn - 1];
+						if (spaceLeft == BOX)
+						{
+							hog.sprite.vx *= -1;
+						}
+					}
+					if (hogColumn < COLS - 1)
+					{
+						var spaceRight = map[hogRow][hogColumn + 1];
+						if (spaceRight == BOX)
+						{
+							hog.sprite.vx *= -1;
+						}
+					}
+
+				}
+			}
 
 			if (hog.sprite.visible && hitTestCircle(cat, hog.sprite) && hog.state == hog.NORMAL)
 			{
@@ -359,18 +401,14 @@ function gameLogic() {
 
 		if (cat.x < 0)
 		{
-			cat.vx *= cat.bounce;
+			cat.vx = 0;
 			cat.x = 0;
 		} else if (cat.x + cat.w > canvas.width)
 		{
-			cat.vx *= cat.bounce;
+			cat.vx = 0;
 			cat.x = canvas.width - cat.w;
 		}
-		if (cat.y < 0)
-		{
-			cat.vy *= cat.bounce;
-			cat.y = 0;
-		} else if (cat.y + cat.h > canvas.height)
+		if (cat.y + cat.h > canvas.height)
 		{
 			cat.y = canvas.height - cat.h;
 			cat.isOnGround = true;
