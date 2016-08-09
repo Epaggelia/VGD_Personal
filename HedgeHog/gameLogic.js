@@ -6,6 +6,16 @@ function gameLogic() {
 	var assetsLoaded = 0;
 
 	var sprites = [];
+	var blocks = [];
+	var hogs = [];
+	var messages = [];
+
+	var hogsSquashed = 0;
+
+	var cat = null;
+	var door = null;
+	var gameOverDisplay = null;
+	var gameOverMessage = null;
 
 	var image = new Image();
 	image.addEventListener("load", loadHandler);
@@ -132,8 +142,7 @@ function gameLogic() {
 	}
 
 
-	var cat = null;
-	var hog = null;
+
 
 	function update() {
 		window.requestAnimationFrame(update);
@@ -145,13 +154,14 @@ function gameLogic() {
 			case BUILD_MAP:
 				buildMap(map);
 				buildMap(gameObjects);
+				createOtherObjects();
 				gameState = PLAYING;
 				break;
 			case PLAYING:
 				playGame();
 				break;
 			case OVER:
-				//to do later
+				endGame();
 				break;
 		}
 		render();
@@ -193,6 +203,7 @@ function gameLogic() {
 							hedgehog.sprite.w = 64;
 							hedgehog.sprite.h = 64;
 							sprites.push(hedgehog.sprite);
+							hogs.push(hedgehog);
 							break;
 						case BOX:
 							var box = new SpriteObject();
@@ -205,9 +216,10 @@ function gameLogic() {
 							box.w = 64;
 							box.h = 64;
 							sprites.push(box);
-							break; 
+							blocks.push(box);
+							break;
 						case DOOR:
-							var door = new SpriteObject();
+							door = new SpriteObject();
 							door.srcX = tileSheetX;
 							door.srcY = tileSheetY;
 							door.srcW = 64;
@@ -217,7 +229,7 @@ function gameLogic() {
 							door.w = 64;
 							door.h = 64;
 							sprites.push(door);
-							break; 
+							break;
 						default:
 							var sprite = new SpriteObject();
 							sprite.srcX = tileSheetX;
@@ -235,27 +247,158 @@ function gameLogic() {
 		}
 	}
 
+	function createOtherObjects()
+	{
+		gameOverDisplay = new SpriteObject();
+		gameOverDisplay.srcY = 192;
+		gameOverDisplay.srcW = 192;
+		gameOverDisplay.srcH = 128;
+		gameOverDisplay.w = 192;
+		gameOverDisplay.h = 128;
+		gameOverDisplay.x = canvas.width / 2 - gameOverDisplay.w / 2;
+		gameOverDisplay.y = canvas.height / 2 - gameOverDisplay.h / 2;
+		gameOverDisplay.visible = false;
+		sprites.push(gameOverDisplay);
+
+		gameOverMessage = new MessageObject();
+		gameOverMessage.x = gameOverDisplay.x + 20;
+		gameOverMessage.y = gameOverDisplay.y + 35;
+		gameOverMessage.font = "bold 30px Helvetica";
+		gameOverMessage.fillStype = "black";
+		gameOverMessage.text = "";
+		gameOverMessage.visible = false;
+		messages.push(gameOverMessage);
+	}
+
 	function playGame() {
+
+		if (jumping && cat.isOnGround)
+		{
+			cat.vy += cat.jumpForce;
+			cat.ax = -0.2;
+			cat.isOnGround = false;
+			cat.friction = 1;
+		}
+
 		if (moveLeft && !moveRight)
 		{
 			cat.ax = -0.2;
 			cat.friction = 1;
-		}
-		else if (!moveLeft && moveRight)
+		} else if (!moveLeft && moveRight)
 		{
 			cat.ax = 0.2;
 			cat.friction = 1;
 		}
-		
-		 if (!moveLeft && !moveRight)
+
+		if (!moveLeft && !moveRight)
 		{
 			cat.ax = 0;
 			cat.friction = 0.96;
 		}
-		
+
 		cat.vx += cat.ax;
-		cat.vx *= cat.friction;
+		cat.vy += cat.gravity;
+		if (cat.isOnGround)
+			cat.vx *= cat.friction;
 		cat.x += cat.vx;
+		cat.y += cat.vy;
+
+		for (i = 0; i < blocks.length; i++)
+		{
+			var box = blocks[i];
+			var collisionSide = blockRectangle(cat, box, false);
+
+			if (collisionSide == "bottom" && cat.vy >= 0)
+			{
+				cat.isOnGround = true;
+				cat.vy = -cat.gravity;
+			} else if (collisionSide == "top" && cat.vy < 0)
+			{
+				cat.vy = 0;
+			}
+
+			if (collisionSide == "left" && cat.vx < 0)
+			{
+				cat.vx = 0;
+			} else if (collisionSide == "right" && cat.vx > 0)
+			{
+				cat.vx = 0;
+			}
+
+			if (collisionSide != "bottom" && cat.vy > 0)
+			{
+				cat.isOnGround = false;
+			}
+		}
+
+		for (var i = 0; i < hogs.length; i++)
+		{
+			var hog = hogs[i];
+
+			if (hog.sprite.visible && hitTestCircle(cat, hog.sprite) && hog.state == hog.NORMAL)
+			{
+				if (cat.vy > 0)
+				{
+					blockCircle(cat, hog.sprite, true);
+					squashHog(hog);
+					hogsSquashed += 1;
+				} else
+				{
+					gameState = OVER;
+				}
+			}
+		}
+
+		if (hitTestRectangle(cat, door))
+		{
+			if (hogsSquashed == 3)
+			{
+				gameState = OVER;
+			}
+		}
+
+		if (cat.x < 0)
+		{
+			cat.vx *= cat.bounce;
+			cat.x = 0;
+		} else if (cat.x + cat.w > canvas.width)
+		{
+			cat.vx *= cat.bounce;
+			cat.x = canvas.width - cat.w;
+		}
+		if (cat.y < 0)
+		{
+			cat.vy *= cat.bounce;
+			cat.y = 0;
+		} else if (cat.y + cat.h > canvas.height)
+		{
+			cat.y = canvas.height - cat.h;
+			cat.isOnGround = true;
+			cat.vy = -cat.gravity;
+		}
+	}
+
+	function endGame()
+	{
+		gameOverDisplay.visible = true;
+		gameOverMessage.visible = true;
+
+		if (hogsSquashed == 3)
+		{
+			gameOverMessage.text = "You Win!";
+		} else
+		{
+			gameOverMessage.text = "You Lose!";
+		}
+	}
+
+	function squashHog(hedgehog) {
+		hedgehog.state = hedgehog.SQUASHED;
+		hedgehog.update();
+
+		setTimeout(function () {
+			hedgehog.sprite.visible = false;
+		}, 1000);
 	}
 
 	function render() {
@@ -272,6 +415,19 @@ function gameLogic() {
 						sprite.srcW, sprite.srcH,
 						Math.floor(sprite.x), Math.floor(sprite.y),
 						sprite.w, sprite.h);
+			}
+		}
+		for (i = 0; i < messages.length; i++)
+		{
+			var message = messages [i];
+
+			if (message.visible)
+			{
+				ctx.font = message.font;
+				ctx.fillStyle = message.fillStyle;
+				ctx.textBaseline = message.textBaseline;
+				ctx.fillText(message.text, message.x, message.y);
+
 			}
 		}
 	}
