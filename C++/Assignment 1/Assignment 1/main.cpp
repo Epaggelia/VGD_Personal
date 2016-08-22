@@ -26,6 +26,7 @@ You’ll need three integer variables for the piles.
 #include <iostream>
 #include <ctime>
 #include <string>
+#include <cmath>
 
 using std::cout;
 using std::cin;
@@ -34,6 +35,8 @@ using std::string;
 using std::rand;
 using std::srand;
 using std::time;
+using std::numeric_limits;
+using std::streamsize;
 
 int getRandom(int min, int max);
 
@@ -45,16 +48,24 @@ int main()
 	int pile = 0;
 	int amountChoice = 0;
 	bool exit = false;
-	int continueGame = 0;
+	int continueGame = 10;
 
 	cout << "\tGame of Nim." << endl << endl << endl;
+
+	cout << "Nim is game in which two players take turns" << endl <<
+		"choosing any number of sticks to remove from one" << endl <<
+		"of three piles." << endl << endl <<
+		"Each time a player removes sticks from a pile," << endl <<
+		"the pile gets smaller by that amount."  << endl << endl <<
+		"The player to remove the last stick from the" << endl << 
+		"last pile wins." << endl << endl;
+
 	system("PAUSE");
-	system("cls");
 
 	do
 	{
+		system("cls");
 		int player = getRandom(0, 100);
-		int turn = 0;
 		if (player > 50)
 		{
 			player = 2;
@@ -62,84 +73,119 @@ int main()
 		else {
 			player = 1;
 		}
-		int winner = player;
-		
-		
 
 		for each (int& var in  piles)
 		{
 			var = getRandom(30, 60);
 		}
 
+		cout << "Player " << player << " will start the game." << endl << endl;
+		system("PAUSE");
+		system("cls");
+
 		do
 		{
-			cout << "Player " << winner << "'s turn." << endl;
+			cout << "Player " << player << "'s turn." << endl << endl;
+
+			cout << "Sticks in each pile." << endl;
+			cout << "\t\tPile 1: " << piles[0] << endl;
+			cout << "\t\tPile 2: " << piles[1] << endl;
+			cout << "\t\tPile 3: " << piles[2] << endl;
+			cout << endl;
 
 			do
 			{
 				cout << "Pick a pile (1-3): ";
 				cin >> pile;
-
-				if (pile < 1 || pile > 3)
+				
+				if (cin.fail())
 				{
-					cout << "Pick a number in range." << endl << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					cout << "Enter a number." << endl << endl;
 				}
-				if (piles[pile - 1] <= 0)
-				{
-					cout << "That pile is empty, pick another." << endl;
+				else {
+					if (pile < 1 || pile > 3)
+					{
+						cout << "Pick a number in range." << endl << endl;
+					}
+					else if (piles[pile - 1] <= 0)
+					{
+						cout << "That pile is empty, pick another." << endl << endl;
+					}
 				}
-			} while (pile < 1 || pile > 3 || piles[pile-1] <= 0);
+				
+			} while ( pile < 1 || pile > 3 || piles[pile-1] <= 0);
 
 			do
 			{
 				cout << "Pick a amount (1-" << piles[pile - 1] << "): ";
 				cin >> amountChoice;
 
-				if (amountChoice < 1 || amountChoice > piles[pile - 1])
+				if (cin.fail())
 				{
-					cout << "Pick a number in range." << endl << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					cout << "Enter a number." << endl << endl;
+				}
+				else
+				{
+					if (amountChoice < 1 || amountChoice > piles[pile - 1])
+					{
+						cout << "Pick a number in range." << endl << endl;
+					}
 				}
 			} while (amountChoice < 1 || amountChoice > piles[pile - 1]);
 
 			piles[pile-1] -= amountChoice;
-			cout << piles[pile-1] << endl;
-
-			if (turn % 2 == 1)
+			
+			
+			if (piles[0] > 0 || piles[1] > 0 || piles[2] > 0)
 			{
-				winner = player;
-			}
-			else {
-				if (player == 1)
-				{
-					winner = 2;
-				}
-				else {
-					winner = 1;
-				}
+				player += 1;
 			}
 			
-			turn += 1;
+			if (player > 2)
+			{
+				player = 1;
+			}
+
+			system("cls");
 			
 		} while (piles[0] > 0 || piles[1] > 0 || piles[2] > 0);
 
-		//system("cls");
+		cout << "The game is over!" << endl << endl;
 
-		cout << "The game is over!" << endl;
+		cout << "The winner is player " << player << endl << endl;
 
-		cout << "The winner is player " << winner << endl;
+		system("PAUSE");
+		system("cls");
 
 		do {
 			cout << "Play again?" << endl << "  [0] No." << endl << "  [1] Yes." << endl;
 			cin >> continueGame;
-			if (continueGame == 0)
+
+			if (cin.fail())
 			{
-				exit = true;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << "Enter a number." << endl << endl;
 			}
 			else
 			{
-				exit = false;
+				if (continueGame == 0)
+				{
+					exit = true;
+				}
+				else if (continueGame == 1)
+				{
+					exit = false;
+				}
+				else
+				{
+					cout << "Enter a valid number." << endl << endl;
+				}
 			}
-			system("cls");
 		} while (continueGame <0 || continueGame > 1);
 	} while (!exit);
 
