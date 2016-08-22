@@ -23,10 +23,10 @@ Use a do{}while() loop to contain all the logic (to allow for replay).
 Don’t be afraid to nest loops or branching statements.
 You’ll need three integer variables for the piles.
 */
+
 #include <iostream>
 #include <ctime>
 #include <string>
-#include <cmath>
 
 using std::cout;
 using std::cin;
@@ -45,10 +45,11 @@ int main()
 	srand(static_cast<unsigned int>(time(0)));
 
 	int piles[3] = { 0, 0, 0 };
-	int pile = 0;
-	int amountChoice = 0;
+	int pile;
+	int amountChoice;
+	int continueGame;
 	bool exit = false;
-	int continueGame = 10;
+	
 
 	cout << "\tGame of Nim." << endl << endl << endl;
 
@@ -56,8 +57,8 @@ int main()
 		"choosing any number of sticks to remove from one" << endl <<
 		"of three piles." << endl << endl <<
 		"Each time a player removes sticks from a pile," << endl <<
-		"the pile gets smaller by that amount."  << endl << endl <<
-		"The player to remove the last stick from the" << endl << 
+		"the pile gets smaller by that amount." << endl << endl <<
+		"The player to remove the last stick from the" << endl <<
 		"last pile wins." << endl << endl;
 
 	system("PAUSE");
@@ -97,7 +98,7 @@ int main()
 			{
 				cout << "Pick a pile (1-3): ";
 				cin >> pile;
-				
+
 				if (cin.fail())
 				{
 					cin.clear();
@@ -114,8 +115,8 @@ int main()
 						cout << "That pile is empty, pick another." << endl << endl;
 					}
 				}
-				
-			} while ( pile < 1 || pile > 3 || piles[pile-1] <= 0);
+
+			} while (pile < 1 || pile > 3 || piles[pile - 1] <= 0);
 
 			do
 			{
@@ -137,21 +138,21 @@ int main()
 				}
 			} while (amountChoice < 1 || amountChoice > piles[pile - 1]);
 
-			piles[pile-1] -= amountChoice;
-			
-			
+			piles[pile - 1] -= amountChoice;
+
+
 			if (piles[0] > 0 || piles[1] > 0 || piles[2] > 0)
 			{
 				player += 1;
 			}
-			
+
 			if (player > 2)
 			{
 				player = 1;
 			}
 
 			system("cls");
-			
+
 		} while (piles[0] > 0 || piles[1] > 0 || piles[2] > 0);
 
 		cout << "The game is over!" << endl << endl;
@@ -189,6 +190,7 @@ int main()
 		} while (continueGame <0 || continueGame > 1);
 	} while (!exit);
 
+	cout << endl;
 	system("PAUSE");
 	return 0;
 }
