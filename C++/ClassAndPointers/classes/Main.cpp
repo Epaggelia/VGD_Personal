@@ -15,6 +15,9 @@ public:
 
 	void printTime() const;
 	void setTimer(int hr, int  min, int sec);
+	void incrementSeconds();
+	void incrementMinutes();
+	void incrementHours();
 };
 
 int main()
@@ -24,6 +27,9 @@ int main()
 
 	myClock.printTime();
 	otherClock.printTime();
+
+	myClock.setTimer(12, 59, 55);
+	myClock.printTime();
 
 	system("PAUSE");
 	return 0;
@@ -52,7 +58,7 @@ void ClockType::printTime() const
 		cout << "0";
 	}
 	cout << _min << ":";
-	
+
 	if (_sec < 10)
 	{
 		cout << "0";
@@ -62,10 +68,58 @@ void ClockType::printTime() const
 
 void ClockType::setTimer(int hr, int  min, int sec)
 {
-	_hr = hr;
-	_min = min;
-	_sec = sec;
+	if (sec >= 0)
+	{
+		_sec = sec % 60;
+		min += sec / 60;
+	}
+	else
+		_sec = 0;
+
+	if (min >= 0)
+	{
+		_min = min % 60;
+		hr += min / 60;
+	}
+	else
+		_min = 0;
+
+	if (hr > 0 && hr < 12)
+		_hr = hr % 12;
+	else
+		_hr = 12;
 }
+
+void ClockType::incrementSeconds()
+{
+	_sec += 1;
+
+	if (_sec >= 60)
+	{
+		_sec -= 60;
+		incrementMinutes();
+	}
+}
+
+void ClockType::incrementMinutes()
+{
+	_min += 1;
+
+	if (_min >= 60)
+	{
+		_min -= 60;
+		incrementHours();
+	}
+}
+
+void ClockType::incrementHours()
+{
+	_hr += 1;
+	
+	if (_hr > 12)
+		_hr -= 12;
+}
+
 
 
 
