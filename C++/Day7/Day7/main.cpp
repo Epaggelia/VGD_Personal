@@ -14,6 +14,7 @@ int main()
 	{
 		system("cls");
 		int userSelection;
+		int userInput = NULL;
 
 		cout << "\tCritter Caretaker." << endl;
 		cout << "[1] Talk to the critter." << endl;
@@ -37,16 +38,87 @@ int main()
 		else if (userSelection == 2)
 		{
 			cout << "Pick a food: " << endl;
-			bob.feed(0);
+			cout << "\t[1] Meat" << endl;
+			cout << "\t[2] Vegi" << endl;
+			cout << "\t[3] Candy" << endl;
+			cout << "> ";
+
+			do
+			{
+				if (!(cin >> userInput))
+				{
+					cin.clear();
+					cin.ignore(1024, '\n');
+				}
+
+				if (userInput == 1)
+				{
+					bob.feed(5);
+					bob.passtime(0, 2);
+				}
+				else if (userInput == 2)
+				{
+					bob.feed(3);
+					bob.passtime(0, 1);
+				}
+				else if (userInput == 3)
+				{
+					bob.feed(1);
+					bob.passtime(0, 0);
+				}
+				else
+				{
+					cout << "Enter valid number." << endl << endl << "> ";
+					userInput = NULL;
+				}
+			} while (userInput == NULL);
 		}
+
 		else if (userSelection == 3)
 		{
-			bob.entertain(1);
+			cout << "Pick something to do with your critter: " << endl;
+			cout << "\t[1] Tell a joke." << endl;
+			cout << "\t[2] Play fetch." << endl;
+			cout << "\t[3] Go to the park." << endl;
+			cout << "> ";
+
+			do
+			{
+				if (!(cin >> userInput))
+				{
+					cin.clear();
+					cin.ignore(1024, '\n');
+				}
+
+				if (userInput == 1)
+				{
+					bob.feed(3);
+					bob.passtime(1, 0);
+				}
+				else if (userInput == 2)
+				{
+					bob.feed(4);
+					bob.passtime(2, 0);
+				}
+				else if (userInput == 3)
+				{
+					bob.feed(5);
+					bob.passtime(3, 0);
+				}
+				else
+				{
+					cout << "Enter valid number." << endl << endl << "> ";
+					userInput = NULL;
+				}
+			} while (userInput == NULL);
+
 		}
 		else if (userSelection == 4)
 		{
 			break;
 		}
+
+		bob.passtime(1, 1);
 
 		cout << endl;
 		system("PAUSE");

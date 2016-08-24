@@ -44,59 +44,48 @@ void Critter::talk()
 	cout << "." << endl << endl;
 
 	cout << "Hunger: " << _hunger << endl;
-	cout << "Boredom: " << -_boredom << endl;
+	cout << "Boredom: " << _boredom << endl;
 }
 
 void Critter::feed(int food)
 {
-	int userInput = 0;
-	
-	cout << "\t[1] Meat" << endl;
-	cout << "\t[2] Vegi" << endl;
-	cout << "\t[3] Candy" << endl;
-	cout << "> ";
-	
-	do
+
+	if (food > 0 && food <= _hunger)
 	{
-		if (!(cin >> userInput))
-		{
-			cin.clear();
-			cin.ignore(1024, '\n');
-		}
+		cout << "Yum, that was tasty." << endl;
+		_hunger -= food;
+	}
+	else if (food > _hunger)
+	{
+		cout << "That's more then I can eat" << endl;
+		_hunger = 0;
+	}
 
-		if (userInput == 1)
-		{
-			food = 5;
-		}
-		else if (userInput == 2)
-		{
-			food = 3;
-		}
-		else if (userInput == 3)
-		{
-			food = 1;
-			_boredom -= 1;
-		}
-		else
-		{
-			food = 0;
-		}
-	} while (food == 0);
-
-	_hunger -= food;
-	cout << "Hunger decreased by " << food << "." << endl << "\tCurrently " << _hunger << " hunger." << endl;
-	if (userInput == 3)
-		cout << "Boredom decreased by 1." << endl;
+	cout << "\tHunger decreased by " << food << "." << endl << "\tCurrently " << _hunger << " hunger." << endl;
+	cout << "\tCurrently " << _boredom << " boredom." << endl;
 }
 
 void Critter::entertain(int fun)
 {
-	if (fun > 0)
+	
+
+	if (fun > 0 && fun <= _boredom)
+	{
+		cout << "Wee! That was fun!" << endl;
 		_boredom -= fun;
+	}
+	else if (fun > _boredom)
+	{
+		cout << "I don't have the energy for something like that." << endl;
+		_boredom = 0;
+	}
+
+	_boredom -= fun;
 }
 
 void Critter::passtime(int hunger, int boredom)
 {
-	//todo
+	_hunger += hunger;
+	_boredom += boredom;
 }
 

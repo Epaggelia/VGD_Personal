@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Allocation", "Allocation\Allocation.vcxproj", "{F7F2F608-C75E-4673-9B97-3366AF738D2C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CritterFarm", "CritterFarm\CritterFarm.vcxproj", "{AB70FB9D-CE3E-424C-9445-C21CCFAD198C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7F2F608-C75E-4673-9B97-3366AF738D2C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F7F2F608-C75E-4673-9B97-3366AF738D2C}.Debug|Win32.Build.0 = Debug|Win32
+		{F7F2F608-C75E-4673-9B97-3366AF738D2C}.Release|Win32.ActiveCfg = Release|Win32
+		{F7F2F608-C75E-4673-9B97-3366AF738D2C}.Release|Win32.Build.0 = Release|Win32
+		{AB70FB9D-CE3E-424C-9445-C21CCFAD198C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB70FB9D-CE3E-424C-9445-C21CCFAD198C}.Debug|Win32.Build.0 = Debug|Win32
+		{AB70FB9D-CE3E-424C-9445-C21CCFAD198C}.Release|Win32.ActiveCfg = Release|Win32
+		{AB70FB9D-CE3E-424C-9445-C21CCFAD198C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
