@@ -20,7 +20,7 @@ Critter::Critter(string name, int hunger, int boredom)
 		_boredom = boredom;
 }
 
-void Critter::talk()
+void Critter::talk() const
 {
 	int mood;
 

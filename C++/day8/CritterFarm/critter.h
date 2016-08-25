@@ -25,7 +25,7 @@ private:
 	string _name;
 	
 public:
-	void talk();
+	void talk() const;
 	void feed(int food);
 	void entertain(int fun);
 	void passtime(int hunger = 1, int boredom = 0);

@@ -13,8 +13,6 @@ Critter* pickACritter(Critter* farm[], int count);
 
 const int CRITTER_COUNT = 3;
 
-int getRandom(int min, int max);
-
 int getValidInt()
 {
 	int userInput;
@@ -56,47 +54,19 @@ int main()
 		{
 			Critter* selectedCritter = pickACritter(farm, CRITTER_COUNT);
 
-			if (selectedCritter != nullptr)
-			{
-				selectedCritter->talk();
-			}
+			talkToACritter(selectedCritter);
 		}
 		else if (userInput == 2)
 		{
+			Critter* selectedCritter = pickACritter(farm, CRITTER_COUNT);
 
+			feedACritter(selectedCritter);
 		}
 		else if (userInput == 3)
 		{
+			Critter* selectedCritter = pickACritter(farm, CRITTER_COUNT);
 
-		}
-		else if (userInput == 9)
-		{
-			system("cls");
-			int row[9][9];
-
-			for (int i = 0; i < 9; i++)
-			{
-				for (int j = 0; j < 9; j++)
-				{
-					row[i][j] = j + 1;
-					cout << row[i][j];
-					if ((j + 1) % 3 == 0)
-						cout << " ";
-				}
-				cout << endl;
-			}
-
-			for (int i = 9; i >0; i--)
-			{
-				int roll = getRandom(0, i);
-				cout << roll << " 0 --> " << i << endl;
-			}
-
-
-
-
-			system("PAUSE");	
-			system("cls");
+			playWithACritter(selectedCritter);
 		}
 		else
 		{
@@ -127,11 +97,104 @@ Critter* pickACritter(Critter* farm[], int  count)
 		return nullptr;
 }
 
-
-int getRandom(int min, int max)
+void talkToACritter(const Critter* critter)
 {
-	return int(rand() % (max - min + 1) + min);
+	if (critter != nullptr)
+	{
+		critter->talk();
+	}
 }
+
+void feedACritter(Critter* critter)
+{
+	if (critter != nullptr)
+	{
+		do 
+		{
+			cout << endl << "What will you feed " << critter->getName() << "?" << endl;
+			cout << "[1] Cupcake" << endl;
+			cout << "[2] Pizza" << endl;
+			cout << "[3] 3-course meal" << endl;
+			cout << "[4] Return" << endl;
+			cout << "> ";
+
+			int userInput = getValidInt();
+
+			if (userInput == 1)
+			{
+				critter->feed(1);
+				break;
+			}
+			else if (userInput == 2)
+			{
+				critter->feed(3);
+				critter->passtime(0, 2);
+				break;
+			}
+			else if (userInput == 3)
+			{
+				critter->feed(5);
+				critter->passtime(0, 4);
+				break;
+			}
+			else if (userInput == 4)
+			{
+				break;
+			}
+			else
+			{
+				cout << endl << "That's not a valid option. Try again." << endl;
+			}
+
+		} while (true);
+	}
+}
+
+void playWithACritter(Critter* critter)
+{
+	if (critter != nullptr)
+	{
+		do
+		{
+			cout << endl << "How will you entertain " << critter->getName() << "?" << endl;
+			cout << "[1] Tell a joke" << endl;
+			cout << "[2] Play catch" << endl;
+			cout << "[3] Go to the park" << endl;
+			cout << "[4] Return" << endl;
+			cout << "> ";
+
+			int userInput = getValidInt();
+
+			if (userInput == 1)
+			{
+				critter->entertain(1);
+				break;
+			}
+			else if (userInput == 2)
+			{
+				critter->entertain(3);
+				critter->passtime(0, 2);
+				break;
+			}
+			else if (userInput == 3)
+			{
+				critter->entertain(5);
+				critter->passtime(0, 4);
+				break;
+			}
+			else if (userInput == 4)
+			{
+				break;
+			}
+			else
+			{
+				cout << endl << "That's not a valid option. Try again." << endl;
+			}
+
+		} while (true);
+	}
+}
+
 
 
 
