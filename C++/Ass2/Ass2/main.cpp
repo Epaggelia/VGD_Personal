@@ -30,43 +30,132 @@ using std::time;
 using std::to_string;
 
 int getRandom(int min, int max);
-bool checkValid(string text);
+bool checkValid(string text, int num);
+int getValidInt();
 
 
 int main()
 {
 	srand(static_cast<unsigned int>(time(0)));
+	
+	cout << "\tBinary Code Breaker" << endl << endl <<
+		"In the game Binary Code Breaker, the player must guess a code made up of" <<endl<<
+		"1's and 0's." << endl << endl <<
+		"The player submits a guess by entering the four digits as a single entry." << endl << endl <<
+		"After the player enters the guess, the computer lets you know how many" << endl <<
+		"digits matched the secret code." << endl << endl; 
+
+	system("PAUSE");
+	system("cls");
+
 	do
 	{
+		bool end = false;
 		string code = "";
 		string guess = "";
+		int guesses = 0;
+		int codeLength;
+		int guessLimit;
 
-		for (int i = 0; i < 4; i++)
+		int userInput;
+		cout << "Select a code difficultly or Exit:" << endl <<
+			"\t[1] Easy" << endl <<
+			"\t[2] Medium" << endl <<
+			"\t[3] Hard" << endl << 
+			"\t[4] Exit" << endl <<
+			"\t> ";
+
+		do
+		{
+			userInput = getValidInt();
+
+			if (userInput == 1)
+			{
+				codeLength = 4;
+				guessLimit = 5;
+				break;
+			}
+			else if (userInput == 2)
+			{
+				codeLength = 5;
+				guessLimit = 7;
+				break;
+			}
+			else if (userInput == 3)
+			{
+				codeLength = 6;
+				guessLimit = 8;
+				break;
+			}
+			else if (userInput == 4)
+			{
+				end = true;
+				break;
+			}
+			else
+			{
+				cout << "\tInvalid input." << endl << "\t> ";
+			}
+		} while (true);
+		
+		system("cls");
+
+		if (end)
+			break;
+		
+		//rand code
+		for (int i = 0; i < codeLength; i++)
 		{
 			code += to_string(rand() % 100 > 50 ? 1 : 0);
 		}
 
-		cout << code << endl;
+		cout << "New " << code.length() << " digit code created."<< endl << "> ";
 
 		do
 		{
-			cin >> guess;
-		} while (checkValid(guess));
-
-		int check = 0;
-
-		for (int i = 0; i < code.length(); i++)
-		{
-			if (code.at(i) == guess.at(i))
+			//get guess
+			do
 			{
-				check += 1;
-			}
-		}
+				cin >> guess;
+			} while (!checkValid(guess, code.length()));
 
-		cout << check << endl;
+			guesses += 1;
+
+			int check = 0;
+
+			//check for matches
+			for (int i = 0; i < code.length(); i++)
+			{
+				if (code.at(i) == guess.at(i))
+				{
+					check += 1;
+				}
+			}
+
+			//checking state
+			if (check == code.length())
+			{
+				cout << "You got the code." << endl << "You win." << endl << endl;
+				break;
+			}
+			else if (guesses < guessLimit)
+			{
+				cout <<endl << "You got " << check << " out of " << code.length() << " digits correct." << endl;
+				cout << "You have " << guessLimit - guesses << " guesses remaining." << endl << endl;
+				cout << "Take your next guess.." << endl << "> ";
+			}
+			else
+			{
+				cout << "You have failed to break the code." << endl << "The code was " << code << "." << endl << endl;
+				break;
+			}
+		} while (true);
+		
+		system("PAUSE");
+		system("cls");
+
 	} while (true);
 
-	system("PAUSE");
 	return 0;
 }
 
@@ -77,33 +166,45 @@ int getRandom(int min, int max)
 	return int(rand() % (max - min + 1) + min);
 }
 
-bool checkValid(string text)
+int getValidInt()
 {
-	bool check = false;
-	if (text.length() != 4)
+	int userInput;
+
+	if (!(cin >> userInput))
 	{
-		cout << "4 character input needed." << endl;
-		check = true;
+		cin.clear();
+		cin.ignore(1024, '\n');
+
+		return -1;
+	}
+	return userInput;
+}
+
+bool checkValid(string text, int num)
+{
+	bool check = true;
+	if (text.length() != num)
+	{
+		cout << num << " character input needed." << endl;
+		check = false;
 	}
 	else
 	{
 		for (int i = 0; i < text.length(); i++)
 		{
-			cout << text.at(i) << endl;
-			switch (text.at(i))
+			if (text.at(i) == '0' || text.at(i) == '1')
 			{
-			case 0:
-				break;
-			case 1:
-				break;
-			default:
-				cout << "Only input binary numbers." << endl;
-				check = true;
-				break;
+				/**/
+			}
+			else
+			{
+				check = false;
 			}
 		}
+		if (!check)
+			cout << "Only input binary numbers." << endl;
 	}
-
+	
 	return check;
 }
 
