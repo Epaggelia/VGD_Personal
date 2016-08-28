@@ -17,27 +17,15 @@ Code Breaker : Binary Edition.
 */
 
 #include <iostream>
-#include <string>
-#include <ctime>
-
-using std::cout;
-using std::cin;
-using std::endl;
-using std::string;
-using std::rand;
-using std::srand;
-using std::time;
-using std::to_string;
-
-int getRandom(int min, int max);
-bool checkValid(string text, int num);
-string genCode(int codeLength);
-int getValidInt();
-
+#include "Binary.h"
 
 int main()
 {
 	srand(static_cast<unsigned int>(time(0)));
+	
+	int codeLength;
+	int guessLimit;
+	int userInput;
 
 	cout << "\tBinary Code Breaker" << endl << endl <<
 		"In the game Binary Code Breaker, the player must guess a code made up of" <<endl<<
@@ -56,11 +44,7 @@ int main()
 		string code = "";
 		string guess = "";
 		int guesses = 0;
-		int codeLength;
-		int guessLimit;
 
-		int userInput;
-		
 		cout << "Select a mode or Exit:" << endl <<
 			"\t[1] Guess code" << "\t(Guess the code created by the computer)" << endl <<
 			"\t[2] Make code" << "\t(Create a code for the computer to guess)" << endl <<
@@ -133,12 +117,12 @@ int main()
 		system("cls");
 
 		//create code
-		if (mode) // computer generated
+		if (mode)		//computer generated
 		{
 			code = genCode(codeLength);
 			cout << "New " << code.length() << " digit code created." << endl << "> ";
 		}
-		else //player generated
+		else			//player generated
 		{
 			cout << "Create a " << codeLength << " digit code using 1 and 0." << endl << "> ";
 			do
@@ -148,40 +132,46 @@ int main()
 			system("cls");
 		}
 
+		int check = 0;
+		int firstCheck = 0;
+		string lastGuess;
+
 		do
 		{
 			//get guess
-			if (mode) //player guess
+			if (mode)	//player guess
 			{
 				do
 				{
 					cin >> guess;
 				} while (!checkValid(guess, code.length()));
 			}
-			else //computer guess
+			else		//computer guess
 			{
 				cout << "Computers guess" << endl << "> ";
-				guess = genCode(codeLength);
+
+				lastGuess = guess;
+				guess = "";
+
+				if (guesses == 1)
+					firstCheck = check;
+				
+				guess = computerGuess(guesses, check, firstCheck, code.length(), lastGuess);
+
 				cout << guess << endl;
 			}
 
 			guesses += 1;
 
-			int check = 0;
+			check = 0;
 
 			//check for matches
-			for (size_t i = 0; i < code.length(); i++)
-			{
-				if (code.at(i) == guess.at(i))
-				{
-					check += 1;
-				}
-			}
+			check = checkMatch(code, guess);
 
 			//checking state
 			if (check == code.length())
 			{
-				cout << (mode ? "You" : "The computer") << " got the code." << endl << "You win." << endl << endl;
+				cout << (mode ? "You" : "The computer") << " got the code." << endl << (mode ? "You" : "The computer") << " win" << (mode ? "." : "s.") << endl << endl;
 				break;
 			}
 			else if (guesses < guessLimit)
@@ -205,64 +195,3 @@ int main()
 
 	return 0;
 }
-
-///////////////////////////////////////////////
-
-int getRandom(int min, int max)
-{
-	return int(rand() % (max - min + 1) + min);
-}
-
-string genCode(int codeLength)
-{
-	string code;
-	for (int i = 0; i < codeLength; i++)
-	{
-		code += to_string(rand() % 100 > 50 ? 1 : 0);
-	}
-		
-	return code;
-}
-
-int getValidInt()
-{
-	int userInput;
-
-	if (!(cin >> userInput))
-	{
-		cin.clear();
-		cin.ignore(1024, '\n');
-
-		return -1;
-	}
-	return userInput;
-}
-
-bool checkValid(string text, int num)
-{
-	bool check = true;
-	if (text.length() != num)
-	{
-		cout << num << " character input needed." << endl;
-		check = false;
-	}
-	else
-	{
-		for (size_t i = 0; i < text.length(); i++)
-		{
-			if (text.at(i) == '0' || text.at(i) == '1')
-			{
-				/**/
-			}
-			else
-			{
-				check = false;
-			}
-		}
-		if (!check)
-			cout << "Only input binary numbers." << endl;
-	}
-	
-	return check;
-}
-
