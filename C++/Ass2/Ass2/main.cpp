@@ -31,13 +31,14 @@ using std::to_string;
 
 int getRandom(int min, int max);
 bool checkValid(string text, int num);
+string genCode(int codeLength);
 int getValidInt();
 
 
 int main()
 {
 	srand(static_cast<unsigned int>(time(0)));
-	
+
 	cout << "\tBinary Code Breaker" << endl << endl <<
 		"In the game Binary Code Breaker, the player must guess a code made up of" <<endl<<
 		"1's and 0's." << endl << endl <<
@@ -51,6 +52,7 @@ int main()
 	do
 	{
 		bool end = false;
+		bool mode = true;
 		string code = "";
 		string guess = "";
 		int guesses = 0;
@@ -58,11 +60,46 @@ int main()
 		int guessLimit;
 
 		int userInput;
-		cout << "Select a code difficultly or Exit:" << endl <<
-			"\t[1] Easy" << endl <<
-			"\t[2] Medium" << endl <<
-			"\t[3] Hard" << endl << 
-			"\t[4] Exit" << endl <<
+		
+		cout << "Select a mode or Exit:" << endl <<
+			"\t[1] Guess code" << "\t(Guess the code created by the computer)" << endl <<
+			"\t[2] Make code" << "\t(Create a code for the computer to guess)" << endl <<
+			"\t[3] Exit" << endl <<
+			"\t> ";
+		do
+		{
+			userInput = getValidInt();
+
+			if (userInput == 1)
+			{
+				mode = true;
+				break;
+			}
+			else if (userInput == 2)
+			{
+				mode = false;
+				break;
+			}
+			else if (userInput == 3)
+			{
+				end = true;
+				break;
+			}
+			else
+			{
+				cout << "\tInvalid input." << endl << "\t> ";
+			}
+		} while (true);
+
+		cout << endl;
+
+		if (end)
+			break;
+
+		cout << "Select a code difficultly:" << endl <<
+			"\t[1] Easy" << "\t4 digits - 5 guesses" << endl <<
+			"\t[2] Medium" << "\t5 digits - 7 guesses" << endl <<
+			"\t[3] Hard" << "\t6 digits - 8 guesses" << endl <<
 			"\t> ";
 
 		do
@@ -87,11 +124,6 @@ int main()
 				guessLimit = 8;
 				break;
 			}
-			else if (userInput == 4)
-			{
-				end = true;
-				break;
-			}
 			else
 			{
 				cout << "\tInvalid input." << endl << "\t> ";
@@ -100,31 +132,45 @@ int main()
 		
 		system("cls");
 
-		if (end)
-			break;
-		
-		//rand code
-		for (int i = 0; i < codeLength; i++)
+		//create code
+		if (mode) // computer generated
 		{
-			code += to_string(rand() % 100 > 50 ? 1 : 0);
+			code = genCode(codeLength);
+			cout << "New " << code.length() << " digit code created." << endl << "> ";
 		}
-
-		cout << "New " << code.length() << " digit code created."<< endl << "> ";
+		else //player generated
+		{
+			cout << "Create a " << codeLength << " digit code using 1 and 0." << endl << "> ";
+			do
+			{
+				cin >> code;
+			} while (!checkValid(code, codeLength));
+			system("cls");
+		}
 
 		do
 		{
 			//get guess
-			do
+			if (mode) //player guess
 			{
-				cin >> guess;
-			} while (!checkValid(guess, code.length()));
+				do
+				{
+					cin >> guess;
+				} while (!checkValid(guess, code.length()));
+			}
+			else //computer guess
+			{
+				cout << "Computers guess" << endl << "> ";
+				guess = genCode(codeLength);
+				cout << guess << endl;
+			}
 
 			guesses += 1;
 
 			int check = 0;
 
 			//check for matches
-			for (int i = 0; i < code.length(); i++)
+			for (size_t i = 0; i < code.length(); i++)
 			{
 				if (code.at(i) == guess.at(i))
 				{
@@ -135,18 +181,19 @@ int main()
 			//checking state
 			if (check == code.length())
 			{
-				cout << "You got the code." << endl << "You win." << endl << endl;
+				cout << (mode ? "You" : "The computer") << " got the code." << endl << "You win." << endl << endl;
 				break;
 			}
 			else if (guesses < guessLimit)
 			{
-				cout <<endl << "You got " << check << " out of " << code.length() << " digits correct." << endl;
-				cout << "You have " << guessLimit - guesses << " guesses remaining." << endl << endl;
-				cout << "Take your next guess.." << endl << "> ";
+				cout << endl << (mode ? "You" : "The computer")<<" got " << check << " out of " << code.length() << " digits correct." << endl;
+				cout << (mode ? "You have " : "The computer has ") << guessLimit - guesses << " guesses remaining." << endl << endl;
+				if (mode)
+					cout << "Take your next guess.." << endl << "> ";
 			}
 			else
 			{
-				cout << "You have failed to break the code." << endl << "The code was " << code << "." << endl << endl;
+				cout << (mode ? "You have" : "The computer has") << " failed to break the code." << endl << "The code was " << code << "." << endl << endl;
 				break;
 			}
 		} while (true);
@@ -164,6 +211,17 @@ int main()
 int getRandom(int min, int max)
 {
 	return int(rand() % (max - min + 1) + min);
+}
+
+string genCode(int codeLength)
+{
+	string code;
+	for (int i = 0; i < codeLength; i++)
+	{
+		code += to_string(rand() % 100 > 50 ? 1 : 0);
+	}
+		
+	return code;
 }
 
 int getValidInt()
@@ -190,7 +248,7 @@ bool checkValid(string text, int num)
 	}
 	else
 	{
-		for (int i = 0; i < text.length(); i++)
+		for (size_t i = 0; i < text.length(); i++)
 		{
 			if (text.at(i) == '0' || text.at(i) == '1')
 			{
