@@ -1,0 +1,22 @@
+Sample Size = 10000000
+
+Nothing : 
+			5013529
+Pair : 
+			4226489
+Two Pair : 
+			474732
+Three of a kind : 
+			210771
+Straight : 
+			37956
+Flush : 
+			19778
+Full house : 
+			14179
+Four of a kind : 
+			2414
+Straight flush : 
+			144
+Royal flush : 
+			8

@@ -126,10 +126,10 @@ int main()
 
 	for (int i = 0; i < 52; i++)
 	{
-		deck[i] = i + 1;
-		cout << deck[i] << " ";
-		if ((i + 1) % 13 == 0)
+		deck[i] = i;
+		if ((i) % 13 == 0)
 			cout << endl;
+		cout << deck[i] << " ";
 	}
 
 	cout << endl;
@@ -140,10 +140,10 @@ int main()
 		int roll = rand() % 52;
 		deck[i] = deck[roll];
 		deck[roll] = temp;
-
-		cout << deck[i] << " ";
-		if ((i + 1) % 13 == 0)
+		
+		if ((i) % 13 == 0)
 			cout << endl;
+		cout << deck[i] << " ";
 	}
 
 	cout << endl;
@@ -170,6 +170,8 @@ int main()
 
 	for (int i = 0; i < 52; i++)
 	{
+		if (i % 4 == 0)
+			cout << endl;
 		cout << value[deck[i] % 13] << suit[deck[i] / 13] << " ";
 	}
 

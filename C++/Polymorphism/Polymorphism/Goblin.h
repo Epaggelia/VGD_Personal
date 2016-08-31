@@ -17,8 +17,8 @@ public:
 	Goblin(string name, int level, int health);
 
 	virtual void attack();
-	void defend();
-	void showStatus();
+	virtual void defend();
+	virtual void showStatus();
  
 };
 

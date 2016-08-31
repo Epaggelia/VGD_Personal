@@ -94,6 +94,7 @@ int main()
 		//cout << endl;
 
 		//print card value
+		/*
 		for (size_t i = 0; i < 5; i++)
 		{
 			
@@ -119,7 +120,9 @@ int main()
 			}
 		}
 		
+		
 		cout << endl;
+		*/
 
 		//print card suit
 		for (size_t i = 0; i < 5; i++)
@@ -142,10 +145,10 @@ int main()
 			{
 				asciiChar = 6;
 			}
-			cout << asciiChar << " ";
+			//cout << asciiChar << " ";
 		}
 		
-		cout << endl;
+		//cout << endl;
 		
 		//check hand
 		///////////////////////////////////////////////////////////////////////
@@ -291,10 +294,10 @@ int main()
 		storeStraightFlush += straightFlush;
 		storeRoyalFlush += royalFlush;		
 
-		cout << endl;
+		//cout << endl;
 		loops += 1;
 		
-	} while (loops < 10000);
+	} while (loops < 10000000);
 
 	system("cls");
 	cout << "Processing complete." << endl << "Continue to save to Values.txt" << endl;
