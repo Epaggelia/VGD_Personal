@@ -13,12 +13,13 @@ using std::cin;
 enum CARD_SUIT { HEART, DIAMOND, CLUB, SPADE };
 
 const int DECK_COUNT = 52;
-const int HAND_COUNT = 5;
+const int hand_COUNT = 5;
 
 void menu();
 void createCards(vector<CardType>& deck);
-void dealHand(vector<CardType>& deck, vector<CardType*>& hand);
-void showHand(vector<CardType*>& hand);
+void dealhand(vector<CardType>& deck, vector<CardType*>& hand);
+void showhand(vector<CardType*>& hand);
+int whichhand();
 
 int main()
 {
@@ -29,8 +30,9 @@ int main()
 
 void menu()
 {
-	vector<CardType>deck;
+	vector<CardType> deck;
 	vector<CardType*> hand;
+	vector<CardType*> hand2;
 
 	createCards(deck);
 
@@ -44,16 +46,30 @@ void menu()
 		cout << "> ";
 		cin >> choice;
 
+		if (choice == 3)
+			return;
+
+		int handNumber = whichhand();
+
+		if (handNumber == 3)
+		{
+			continue;
+		}
+
 		switch (choice)
 		{
 		case 1:
-			showHand(hand);
+			if (handNumber == 1)
+				showhand(hand);
+			else
+				showhand(hand2);
 			break;
 		case 2:
-			dealHand(deck, hand);
+			if (handNumber == 1)
+				dealhand(deck, hand);
+			else
+				dealhand(deck, hand2);
 			break;
-		case 3:
-			return;
 		default:
 			cout << "Invalid option." << endl;
 		}
@@ -85,22 +101,22 @@ void createCards(vector<CardType>& deck)
 	}
 }
 
-void dealHand(vector<CardType>& deck, vector<CardType*>& hand)
+void dealhand(vector<CardType>& deck, vector<CardType*>& hand)
 {
 	hand.clear();
 
-	for (size_t i = 0; i < HAND_COUNT; i++)
+	for (size_t i = 0; i < hand_COUNT; i++)
 	{
 		int cardIndex = rand() % DECK_COUNT;
 
-		CardType card(deck[cardIndex].rank(), deck[cardIndex].suit());
+		CardType card(deck[cardIndex].value(), deck[cardIndex].suit());
 
 		do
 		{
 			bool found = false;
 			for (int j = 0; j < hand.size(); j++)
 			{
-				if (hand[j]->rank() == card.rank() && hand[j]->suit() == card.suit())
+				if (hand[j]->value() == card.value() && hand[j]->suit() == card.suit())
 				{
 					found = true;
 					break;
@@ -113,41 +129,13 @@ void dealHand(vector<CardType>& deck, vector<CardType*>& hand)
 			}
 
 			cardIndex = rand() % DECK_COUNT;
-			card = CardType(deck[cardIndex].rank(), deck[cardIndex].suit());
+			card = CardType(deck[cardIndex].value(), deck[cardIndex].suit());
 		} while (true);
 		hand.push_back(&deck[cardIndex]);
 	}
-
-	for (int i = 0; i < hand.size(); i++)
-	{
-		for (int j = 0; j < hand.size(); j++)
-		{
-			if (hand[i]->rank() > hand[i + 1]->rank())
-			{
-				if (hand[i]->rank() > hand[i + 1]->rank())
-				{
-					if (hand[i]->suit() > hand[i + 1]->suit())
-					{
-						int tempRank = hand[i] -> rank(); 
-						char tempSuit = hand[i] -> suit();
-						hand[i]->setCard(hand[j]-> rank(), hand[j]->suit());;
-						hand[j]->setCard(tempRank, tempSuit);
-					}
-				}
-				else
-				{
-					int tempRank = hand[i]->rank();
-					char tempSuit = hand[i]->suit();
-					hand[i]->setCard(hand[j]->rank(), hand[j]->suit());;
-					hand[j]->setCard(tempRank, tempSuit);
-				}
-
-			}
-		}
-	}
 }
 
-void showHand(vector<CardType*>& hand)
+void showhand(vector<CardType*>& hand)
 {
 	if (hand.size() == 0)
 	{
@@ -161,6 +149,34 @@ void showHand(vector<CardType*>& hand)
 			hand[i]->show();
 			cout << " ";
 		}
-		cout << endl;
+		cout << endl << endl;
 	}
+}
+
+int whichhand()
+{
+	int choice = 0;
+
+	do
+	{
+		cout << endl << "Which hand will you choose?" << endl;
+		cout << endl;
+		cout << "[1] Player 1" << endl;
+		cout << "[2] Player 2" << endl;
+		cout << "[3] Return" << endl;
+		cout << "> ";
+		cin >> choice;
+		cout << endl;
+
+		if (choice != 1 && choice != 2 && choice != 3)
+		{
+			cout << "Invalid option." << endl;
+		}
+		else
+		{
+			break;
+		}
+	} while (true);
+
+	return choice;
 }
