@@ -250,6 +250,11 @@ void war(vector<int>& hand1, vector<int>& hand2, vector<int>& deck)
 		int hand1Value = hand1.back() % 13 + 1;
 		int hand2Value = hand2.back() % 13 + 1;
 
+		if (hand1Value == 1)
+			hand1Value = 14;
+		if (hand2Value == 1)
+			hand2Value = 14;
+
 		if (hand1Value != hand2Value)
 		{
 			//print card
@@ -423,6 +428,7 @@ BONUS: Implement wagers, and research and implement the rules for the “split” ac
 I will be checking COMMENTS, WHITESPACE USE, PROPER NAMING CONVENTIONS, and ERROR CHECKING.
 
 */
+
 void blackJack(vector<int>& hand1, vector<int>& hand2, vector<int>& deck)
 {
 	system("cls");
@@ -459,6 +465,11 @@ void blackJack(vector<int>& hand1, vector<int>& hand2, vector<int>& deck)
 
 	do
 	{
+		if (blackJackCheck(hand2) == 21)
+		{
+			break;
+		}
+
 		cout << "[1] Hit" << endl;
 		cout << "[2] Stay" << endl;
 		cout << "[0] Quit" << endl;
@@ -496,6 +507,7 @@ void blackJack(vector<int>& hand1, vector<int>& hand2, vector<int>& deck)
 				}
 				else
 				{
+
 					cout << endl << "Dealer stays." << endl << endl;
 					break;
 				}
@@ -618,7 +630,7 @@ bool blackJackCompare(vector<int>& hand1, vector<int>& hand2)
 		cout << "Player got a bust." << endl << endl << "Dealer wins." << endl << endl;
 		return true;
 	}
-	else if (blackJackCheck(hand1) <= 21 && blackJackCheck(hand2) > 21)
+	else if (blackJackCheck(hand2) <= 21 && blackJackCheck(hand1) > 21)
 	{
 		cout << "Dealer got a bust." << endl << endl << "Player wins." << endl << endl;
 		return true;
@@ -629,6 +641,8 @@ bool blackJackCompare(vector<int>& hand1, vector<int>& hand2)
 	}
 }
 
+
+//Card management
 bool refillDeck(vector<int>& deck, vector<int>& pile)
 {
 	if (deck.size() == 0)
@@ -665,7 +679,7 @@ int drawCard(vector<int>& handGive, vector<int>& deck)
 	return randomCard;
 }
 
-void sortHand(vector<int>& hand)
+void sortHand(vector<int>& hand) 
 {
 	int temp;
 	for (size_t i = 0; i < hand.size(); i++){
@@ -769,19 +783,19 @@ void printSuit(int i)
 	//print card suit
 	if (i / 13 == 0)
 	{
-		asciiChar = 3;
+		asciiChar = HEART;
 	}
 	else if (i / 13 == 1)
 	{
-		asciiChar = 4;
+		asciiChar = DIAMOND;
 	}
 	else if (i / 13 == 2)
 	{
-		asciiChar = 5;
+		asciiChar = CLUB;
 	}
 	else if (i / 13 == 3)
 	{
-		asciiChar = 6;
+		asciiChar = SPADE;
 	}
 	cout << asciiChar << "  ";
 }
