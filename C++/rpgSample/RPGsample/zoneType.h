@@ -31,6 +31,7 @@ public:
 	void addItem(ItemType* item);
 	ItemType* removeItem(int index);
 	void listItems();
+	bool hasItems();
 
 private:
 	string _description;

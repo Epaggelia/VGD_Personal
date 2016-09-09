@@ -1,7 +1,11 @@
 #include <algorithm>
+#include <iostream>
 #include "zoneType.h"
 
 using std::find;
+using std::cout;
+using std::endl;
+
 
 ZoneType::ZoneType(string description)
 {
@@ -65,4 +69,20 @@ ItemType* ZoneType::removeItem(int index)
 	_items.erase(_items.begin() + zeroBased);
 
 	return item;
+}
+void ZoneType::listItems()
+{
+	for (int i = 0; i < _items.size(); i++)
+	{
+		cout << "[" << i + 1 << "] " << _items[i]->getDescription() << endl;
+	}
+}
+
+bool ZoneType::hasItems()
+{
+	if (_items.size() > 0)
+	{
+		return true;
+	}
+	return false;
 }

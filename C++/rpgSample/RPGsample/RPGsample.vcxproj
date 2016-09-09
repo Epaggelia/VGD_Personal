@@ -77,11 +77,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="itemType.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="worldType.cpp" />
     <ClCompile Include="zoneType.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="itemType.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="worldType.h" />
     <ClInclude Include="zoneType.h" />
   </ItemGroup>

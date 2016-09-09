@@ -2,6 +2,8 @@
 #define WORLD_TYPE_H
 
 #include "zoneType.h"
+#include "itemType.h"
+#include "player.h"
 #include <string>
 #include <map>
 
@@ -19,12 +21,22 @@ public:
 	void setPosition(ZoneType* zone);
 	bool move(ZoneType::DIRECTIONS direction);
 
-
 	ZoneType* operator[](string key);
+
+	void init();
+	bool running();
+	char queryAction();
+	void showCurrentZone();
+
+	//player actions
+	void move();
+	void take();
+	void drop();
 
 private:
 	ZoneType* _currentPosition;
 	map<string, ZoneType*> _world;
+	Player* _player;
 };
 
 
