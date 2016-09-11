@@ -1,6 +1,8 @@
 /*
 RPG Character Maker
-Write a program that simulates the character creation process found in most RPG games. The character must be defined by the following traits: name, race, class, strength, dexterity, constitution, wisdom, intelligence, and charisma.
+Write a program that simulates the character creation process found in most RPG games. 
+The character must be defined by the following traits: name, race, class, strength, 
+dexterity, constitution, wisdom, intelligence, and charisma.
 
 •	The character data must be stored inside a c++ class called Character. 
 	The functionality of the class is up to you (think about what data members
@@ -18,19 +20,55 @@ Write a program that simulates the character creation process found in most RPG 
 •	*BONUS: Add bonuses or penalties to the traits based on race/class selection. 
 	The details of which are up to you (e.g. picking an Elf class assigns a bonus 
 	of +2 dex, but -2 str). The bonuses CAN modify the stats beyond the range of 8 – 18.
-
-Example:
-Please enter a name: Jeff
-Select a race: Dwarf
-Select a class: Thief
-Character Sheet:
-Name: Jeff
-Race: Dwarf
-Class: Thief
-STR: 12	DEX: 13
-CON: 14	WIS: 8
-INT: 10	CHA: 9
-Is this ok? (y/n): y
-Happy gaming!
-
 */
+#include <iostream>
+#include <ctime>
+#include "character.h"
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::rand;
+using std::srand;
+
+bool confirm();
+
+int main()
+{
+	srand(static_cast<unsigned int>(time(0)));
+
+	do
+	{
+		Character char_;
+		char_.display();
+	} while (confirm());
+	
+	
+	system("pause");
+	return 0;
+}
+
+
+bool confirm()
+{
+	string userInput;
+	cout << "Do you accept this character: \t(Yes/No)" << endl;
+	do
+	{
+		cout << "> ";
+		cin >> userInput;
+		if (userInput == "Yes" || userInput == "yes" || userInput == "Y" || userInput == "y")
+		{
+			return false;
+		}
+		else if (userInput == "No" || userInput == "no" || userInput == "N" || userInput == "n")
+		{
+			system("cls");
+			return true;
+		}
+		else
+		{
+			cout << endl << "Invalid Input." << endl;
+		}
+	} while (true);
+}
