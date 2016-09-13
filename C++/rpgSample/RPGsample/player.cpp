@@ -5,6 +5,11 @@ using std::find;
 using std::cout;
 using std::endl;
 
+Player::Player(string type, int level, int maxHealth) : Creature(type, level, maxHealth)
+{
+	
+}
+
 void Player::addItem(ItemType* item)
 {
 	if (find(_inventory.begin(), _inventory.end(),item) != _inventory.end())
@@ -32,7 +37,11 @@ ItemType* Player::dropItem(int index)
 void Player::listItems()
 {
 	cout << endl << "Inventory" << endl;
-
+	if (_inventory.size() == 0)
+	{
+		cout << "  Nothing." << endl;
+		return;
+	}
 	for (int i = 0; i < _inventory.size(); i++)
 	{
 		cout << "[" << i + 1 << "] " << _inventory[i]->getDescription() << endl;
@@ -42,4 +51,11 @@ void Player::listItems()
 bool Player::hasItems()
 {
 	return _inventory.size() > 0;
+}
+
+void Player::displayCharacter()
+{
+	Creature::displayCharacter();
+
+	listItems();
 }

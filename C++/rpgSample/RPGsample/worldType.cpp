@@ -86,7 +86,7 @@ char WorldType::queryAction()
 		cout << "[D]rop ";
 	}
 
-	cout << "[Q]uit" << endl;
+	cout << "[S]tats [Q]uit" << endl;
 	cout << "> ";
 	cin >> choice;
 
@@ -116,6 +116,9 @@ char WorldType::queryAction()
 		{
 			cout << "You have nothing to drop." << endl;
 		}
+		break;
+	case 'S':
+		_player->displayCharacter();
 		break;
 	case 'Q':
 		return choice;
@@ -161,12 +164,60 @@ void WorldType::move()
 
 void WorldType::take()
 {
+	int choice = -1;
+	cout << endl << "What would you like to take?" << endl;
+	_currentPosition->listItems();
+	cout << "> ";
 
+	if (!(cin >> choice))
+	{
+		cin.clear();
+		cin.ignore(UINT_MAX, '\n');
+		cout << "Invalid option." << endl;
+	}
+	else
+	{
+		ItemType* temp = _currentPosition->removeItem(choice);
+
+		if (temp == nullptr)
+		{
+			cout << "Invalid option." << endl;
+		}
+		else
+		{
+			_player->addItem(temp);
+			cout << "Taken." << endl;
+		}
+	}
 }
 
 void WorldType::drop()
 {
+	int choice = -1;
+	cout << endl << "What would you like to drop?" << endl;
+	_player->listItems();
+	cout << "> ";
 
+	if (!(cin >> choice))
+	{
+		cin.clear();
+		cin.ignore(UINT_MAX, '\n');
+		cout << "Invalid option." << endl;
+	}
+	else
+	{
+		ItemType* temp = _player->dropItem(choice);
+
+		if (temp == nullptr)
+		{
+			cout << "Invalid option." << endl;
+		}
+		else
+		{
+			_currentPosition->addItem(temp);
+			cout << "Dropped." << endl;
+		}
+	}
 }
 
 void WorldType::showCurrentZone()

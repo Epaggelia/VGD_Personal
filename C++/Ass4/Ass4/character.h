@@ -6,15 +6,15 @@ using std::string;
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-/*The character must be defined by the following traits: 
-name 
-race 
+/*The character must be defined by the following traits:
+name
+race
 class
-strength 
+strength
 dexterity
-constitution 
+constitution
 wisdom
-intelligence 
+intelligence
 charisma
 */
 class Character

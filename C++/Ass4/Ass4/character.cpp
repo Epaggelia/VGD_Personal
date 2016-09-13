@@ -16,7 +16,6 @@ Character::Character()
 	_charisma += randStat();
 	_race = pickRace();
 	_class = pickClass();
-	
 }
 
 string Character::setName()
@@ -24,7 +23,7 @@ string Character::setName()
 	string name;
 	cout << "Enter the name of your character:\n> ";
 	cin >> name;
-	cout << endl<< "Name Set." << endl;
+	cout << endl << "Name Set." << endl;
 	system("pause");
 	system("cls");
 	return name;
@@ -68,7 +67,7 @@ string Character::pickRace()
 			race = "Human";
 			break;
 		}
-		else if (userInput==2)
+		else if (userInput == 2)
 		{
 			race = "Elf";
 			_wisdom += 1;
@@ -124,10 +123,11 @@ string Character::pickClass()
 	{
 		cout << "Pick a class from the following list:" << endl;
 		cout << "[1] Fighter" << endl;
-		cout << "[2] Wizard" << endl;
-		cout << "[3] Cleric" << endl;
-		cout << "[4] Rogue" << endl;
-		cout << "[5] Ranger" << endl;
+		cout << "[2] Paladin" << endl;
+		cout << "[3] Wizard" << endl;
+		cout << "[4] Cleric" << endl;
+		cout << "[5] Rogue" << endl;
+		cout << "[6] Ranger" << endl;
 		cout << "> ";
 
 		if (!(cin >> userInput))
@@ -154,26 +154,31 @@ string Character::pickClass()
 		}
 		else if (userInput == 2)
 		{
-			charClass = "Wizard";
+			charClass = "Paladin";
 			break;
 		}
 		else if (userInput == 3)
 		{
-			charClass = "Cleric";
+			charClass = "Wizard";
 			break;
 		}
 		else if (userInput == 4)
 		{
-			charClass = "Rogue";
+			charClass = "Cleric";
 			break;
 		}
 		else if (userInput == 5)
+		{
+			charClass = "Rogue";
+			break;
+		}
+		else if (userInput == 6)
 		{
 			charClass = "Ranger";
 			break;
 		}
 	} while (true);
-	
+
 	cout << endl << "Class Set." << endl;
 	system("pause");
 	system("cls");
