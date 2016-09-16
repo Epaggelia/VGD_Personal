@@ -7,7 +7,7 @@ class BinaryTree;
 template<typename T>
 class BinaryNode
 {
-friend class BinaryTree<T>
+	friend class BinaryTree<T>;
 public:
 	BinaryNode(T data) :
 		_data(data), _left(nullptr), _right(nullptr)

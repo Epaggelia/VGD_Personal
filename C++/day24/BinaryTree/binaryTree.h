@@ -23,7 +23,7 @@ public:
 
 	bool insert(T data)
 	{
-		BinaryNode<T> node = new BinaryNode<T>(data);
+		BinaryNode<T> *node = new BinaryNode<T>(data);
 
 		if (_root == nullptr)
 		{
@@ -45,7 +45,7 @@ public:
 
 				if (data < current->_data)
 				{
-					current = curre->_left;
+					current = current->_left;
 
 					if (current == nullptr)
 					{
@@ -164,8 +164,32 @@ public:
 		return true;
 	}
 
+	void display()
+	{
+		if (_root == nullptr)
+		{
+			cout << "Nothing to display.\n";
+		}
+		else
+		{
+			display(_root);
+			cout << "End of display.\n";
+		}
+	}
+
 private:
 	BinaryNode<T>* _root;
+
+	void display(BinaryNode<T>* node)
+	{
+		if (node != nullptr)
+		{
+			cout << node->_data << " ";
+			display(node->_left);
+			cout << "// \n";
+			display(node->_right);
+		}
+	}
 };
 
 
