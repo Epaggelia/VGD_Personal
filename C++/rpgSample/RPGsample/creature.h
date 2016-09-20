@@ -71,6 +71,10 @@ public:
 		cout << "Level: " << _level << "\tHealth: " << _currHealth << "/" << _maxHealth << endl;
 	}
 
+	virtual void attack(Creature& creature) = 0;
+	virtual void receiveDamage(unsigned int damage) = 0;
+	virtual int getItemEffect(int slot) const = 0;
+
 private:
 
 };

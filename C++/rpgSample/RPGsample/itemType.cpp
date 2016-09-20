@@ -18,6 +18,11 @@ int ItemType::getSlot() const
 	return _slot;
 }
 
+int ItemType::getEffect() const
+{
+	return _effect;
+}
+
 string ItemType::getDescription() const
 {
 	return _description;
@@ -33,6 +38,11 @@ void ItemType::setSlot(int slot)
 	{
 		_slot = slot;
 	}
+}
+
+void ItemType::setEffect(int effect)
+{
+	_effect = effect;
 }
 
 void ItemType::setDescription(string des)

@@ -53,6 +53,8 @@ void WorldType::init()
 	_world["ARMORY"]->addItem(new ItemType("Crossbow", ItemType::RHAND));
 	_world["ARMORY"]->addItem(new ItemType("Chainmail coif", ItemType::HEAD));
 
+	_world["ROOM"]->addEnemy(new Enemy());
+
 	_currentPosition = _world["CELL"];
 
 	_player = new Player();
@@ -228,6 +230,12 @@ void WorldType::showCurrentZone()
 	{
 		cout << endl << "Items nearby: " << endl;
 		_currentPosition->listItems();
+	}
+
+	if (_currentPosition->hasEnemies())
+	{
+		cout << endl << "Enemies nearby: " << endl;
+		_currentPosition->listEnemies();
 	}
 }
 

@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="itemType.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
@@ -84,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="creature.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="itemType.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="worldType.h" />

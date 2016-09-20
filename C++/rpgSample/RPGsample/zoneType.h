@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "itemType.h"
+#include "enemy.h"
 
 using std::string;
 using std::vector;
@@ -33,10 +34,16 @@ public:
 	void listItems();
 	bool hasItems();
 
+	void addEnemy(Enemy* enemy);
+	Enemy* removeEnemy(int index);
+	void listEnemies();
+	bool hasEnemies();
+
 private:
 	string _description;
 	ZoneType* _exits[COUNT];
 	vector<ItemType*> _items;
+	vector<Enemy*> _enemies;
 };
 
 #endif

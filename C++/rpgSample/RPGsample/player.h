@@ -22,6 +22,10 @@ public:
 	bool hasItems();
 
 	void displayCharacter();
+
+	void attack(Creature& creature) {};
+	void receiveDamage(unsigned int dmage) {};
+	int getItemEffect(int slot) const { return 0; };
 };
 
 

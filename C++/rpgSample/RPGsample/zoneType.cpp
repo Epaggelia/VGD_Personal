@@ -86,3 +86,43 @@ bool ZoneType::hasItems()
 	}
 	return false;
 }
+
+void ZoneType::addEnemy(Enemy* enemy)
+{
+	if (find(_enemies.begin(), _enemies.end(), enemy) != _enemies.end())
+	{
+		return;
+	}
+
+	_enemies.push_back(enemy);
+}
+
+Enemy* ZoneType::removeEnemy(int index)
+{
+	if (index < 1 || index > _enemies.size())
+	{
+		return nullptr;
+	}
+
+	int zeroBased = index - 1;
+	Enemy* enemy = _enemies.at(zeroBased);
+	_enemies.erase(_enemies.begin() + zeroBased);
+	return enemy;
+}
+
+void ZoneType::listEnemies()
+{
+	for (int i = 0; i < _enemies.size(); i++)
+	{
+		cout << "[" << i + 1 << "] " << _enemies[i]->getType();
+	}
+}
+
+bool ZoneType::hasEnemies()
+{
+	if (_enemies.size() > 0)
+	{
+		return true;
+	}
+	return false;
+}
