@@ -50,14 +50,16 @@ void WorldType::init()
 
 	_world["ARMORY"]->setExit(ZoneType::DIRECTIONS::SOUTH, _world["ROOM"]);
 
-	_world["ARMORY"]->addItem(new ItemType("Crossbow", ItemType::RHAND));
-	_world["ARMORY"]->addItem(new ItemType("Chainmail coif", ItemType::HEAD));
+	_world["ARMORY"]->addItem(new ItemType("Crossbow", ItemType::RHAND, 7));
+	_world["ARMORY"]->addItem(new ItemType("Chainmail coif", ItemType::HEAD, 3));
 
 	_world["ROOM"]->addEnemy(new Enemy());
 
 	_currentPosition = _world["CELL"];
 
 	_player = new Player();
+	_player->equipItem(new ItemType("Rock", ItemType::RHAND, 3));
+	_player->equipItem(new ItemType("Rags", ItemType::CHEST, 1));
 }
 
 bool WorldType::running()
@@ -76,7 +78,16 @@ char WorldType::queryAction()
 {
 	char choice = '~';
 
-	cout << endl << "What would you like to do? [M]ove ";
+	cout << endl << "What would you like to do? ";
+
+	if (_currentPosition->hasEnemies())
+	{
+		cout << "[A]ttack ";
+	}
+	else
+	{
+		cout << "[M]ove ";
+	}
 
 	if (_currentPosition->hasItems())
 	{
@@ -96,9 +107,26 @@ char WorldType::queryAction()
 
 	switch (choice)
 	{
-	case 'M':
-		move();
+	case 'A':
+		if (_currentPosition->hasEnemies())
+		{
+			attack();
+		}
+		else
+		{
+			cout << "Nothing to attack." << endl;
+		}
 		break;
+	case 'M':
+		if (_currentPosition->hasEnemies() == false)
+		{
+			move();
+		}
+		else
+		{
+			cout << "You can't move right now." << endl;
+		}
+			break;
 	case 'T':
 		if (_currentPosition->hasItems())
 		{
@@ -130,6 +158,36 @@ char WorldType::queryAction()
 
 }
 
+void WorldType::attack()
+{
+	int choice  = -1;
+
+	cout << endl << "Which enemy would you like to attack." << endl;
+	_currentPosition->listEnemies();
+	cout << "> ";
+
+	if (!(cin >> choice))
+	{
+		cin.clear();
+		cin.ignore(UINT_MAX, '\n');
+		cout << "Invalid option." << endl;
+	}
+	else
+	{
+		Enemy* temp = _currentPosition->removeEnemy(choice);
+
+		if (temp == nullptr)
+		{
+			cout << "Invalid option." << endl;
+		}
+		else
+		{
+			battle(temp);
+			delete temp;
+		}
+	}
+
+}
 void WorldType::move()
 {
 	char choice = '~';
@@ -281,6 +339,24 @@ ZoneType* WorldType::operator[](string key)
 	return _world[key];
 }
 
+void WorldType::battle(Enemy* enemy)
+{
+	do
+	{
+		int diceRoll = rand() % 100 + 1;
 
+		if (diceRoll > 50)
+		{
+			_player->attack(*enemy);
+		}
+		else
+		{
+			enemy->attack(*_player);
+		}
+
+		_sleep(2000);
+
+	} while (enemy->isAlive() && _player->isAlive());
+}
 
 

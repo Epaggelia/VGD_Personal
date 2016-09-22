@@ -1,6 +1,6 @@
 #include "itemType.h"
 
-ItemType::ItemType(string des, int slot)
+ItemType::ItemType(string des, int slot, int effect)
 {
 	_description = des;
 	if (slot<= NOSLOT || slot >= COUNT)
@@ -11,6 +11,8 @@ ItemType::ItemType(string des, int slot)
 	{
 		_slot = slot;
 	}
+
+	_effect = effect;
 }
 
 int ItemType::getSlot() const

@@ -8,7 +8,7 @@ using std::string;
 class ItemType
 {
 public:
-	ItemType(string des = "Garbage", int slot = -1);
+	ItemType(string des = "Garbage", int slot = -1, int effect = 0);
 
 	enum SLOTS{NOSLOT = -1,HEAD,CHEST,LHAND,RHAND,COUNT};
 

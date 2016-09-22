@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StaticMembers", "StaticMembers\StaticMembers.vcxproj", "{DC5E1C6D-D2F3-440B-840A-127776F6828B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exceptions", "Exceptions\Exceptions.vcxproj", "{8DF30F7F-EF87-4FCB-A522-784F265FAE14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC5E1C6D-D2F3-440B-840A-127776F6828B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DC5E1C6D-D2F3-440B-840A-127776F6828B}.Debug|Win32.Build.0 = Debug|Win32
+		{DC5E1C6D-D2F3-440B-840A-127776F6828B}.Release|Win32.ActiveCfg = Release|Win32
+		{DC5E1C6D-D2F3-440B-840A-127776F6828B}.Release|Win32.Build.0 = Release|Win32
+		{8DF30F7F-EF87-4FCB-A522-784F265FAE14}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8DF30F7F-EF87-4FCB-A522-784F265FAE14}.Debug|Win32.Build.0 = Debug|Win32
+		{8DF30F7F-EF87-4FCB-A522-784F265FAE14}.Release|Win32.ActiveCfg = Release|Win32
+		{8DF30F7F-EF87-4FCB-A522-784F265FAE14}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

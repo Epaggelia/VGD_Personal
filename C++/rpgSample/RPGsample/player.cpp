@@ -5,9 +5,10 @@ using std::find;
 using std::cout;
 using std::endl;
 
-Player::Player(string type, int level, int maxHealth) : Creature(type, level, maxHealth)
+Player::Player(string type, int level, int maxHealth, string name, int exp, int gold) : 
+	Enemy(type, level, maxHealth, name, exp, gold)
 {
-	
+	_requiredExp = 2 * level * 100;
 }
 
 void Player::addItem(ItemType* item)
@@ -55,7 +56,7 @@ bool Player::hasItems()
 
 void Player::displayCharacter()
 {
-	Creature::displayCharacter();
+	Enemy::displayCharacter();
 
 	listItems();
 }

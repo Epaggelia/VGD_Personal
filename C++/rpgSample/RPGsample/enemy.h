@@ -35,8 +35,8 @@ public:
 	void equipItem(ItemType* item);
 	int getItemEffect(int slot) const;
 
-	void attack(Creature& creature);
-	void receiveDamage(unsigned int damage);
+	virtual void attack(Creature& creature);
+	virtual void receiveDamage(unsigned int damage);
 
 	void displayCharacter();
 

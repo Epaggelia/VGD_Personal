@@ -19,7 +19,7 @@ public:
 	enum DIRECTIONS{ NORTH, SOUTH, EAST, WEST, COUNT };
 
 	ZoneType(string description = "A dark void.");
-	~ZoneType() {}
+	~ZoneType();
 
 	string getDescription() const;
 	ZoneType* getExit(DIRECTIONS direction) const;

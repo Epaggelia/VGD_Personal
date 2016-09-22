@@ -9,6 +9,11 @@ Creature(type, level, maxHealth)
 	_name = name;
 	_exp = exp;
 	_gold = gold;
+
+	for (int i = 0; i < ItemType::COUNT; i++)
+	{
+		_equipment[i] = nullptr;
+	}
 }
 
 Enemy::~Enemy()
@@ -58,6 +63,8 @@ void Enemy::equipItem(ItemType* item)
 
 	if (_equipment[slot])
 		delete _equipment[slot];
+
+	_equipment[slot] = item;
 }
 
 int Enemy::getItemEffect(int slot) const
@@ -76,17 +83,25 @@ void Enemy::attack(Creature& creature)
 
 	int attValue = (rand() % 20 + 1) + (_level / 2);
 	int dmg = 0;
+	cout << endl<< endl<<_name << " attacks!" << endl;
+		cout << "Attack ROll: " << attValue << endl
+			<< "vs. Defensive Value: " << defValue << endl;
 
 	if (attValue >= defValue)
 	{
 		dmg = _level + getItemEffect(ItemType::RHAND);
-
-		cout << "Attack ROll: " << attValue << endl
-			<< "vs. Defensive Value: " << defValue << endl;
-
+		
 		cout << endl << _name << " hits " << creature.getType()
-			<< " with his " << _equipment[ItemType::RHAND]->getDescription()
-			<< " for " << dmg << " damage." << endl;
+			<< " with his ";
+		if (_equipment[ItemType::RHAND] != nullptr)
+		{
+			cout << _equipment[ItemType::RHAND]->getDescription();
+		}
+		else
+		{
+			cout << "bare hands";
+		}
+		cout << " for " << dmg << " damage." << endl;
 	}
 	else
 	{

@@ -29,9 +29,12 @@ public:
 	void showCurrentZone();
 
 	//player actions
+	void attack();
 	void move();
 	void take();
 	void drop();
+
+	void battle(Enemy* enemy);
 
 private:
 	ZoneType* _currentPosition;

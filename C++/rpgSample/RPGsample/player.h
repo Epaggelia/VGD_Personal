@@ -2,19 +2,23 @@
 #define PLAYER_H
 
 #include "itemType.h"
-#include "creature.h"
+#include "enemy.h"
 #include <vector>
 #include <string>
 
 using std::vector;
 using std::string;
 
-class Player : public Creature
+class Player : public Enemy
 {
 protected:
 	vector<ItemType*> _inventory;
+	unsigned int _requiredExp;
 public:
-	Player(string _type = "Human", int _level = 1, int maxHealth = 50);
+	Player(string _type = "Human", int _level = 1, int maxHealth = 50,
+		string name = "Jeff",
+		int exp = 0,
+		int gold = 0);
 
 	void addItem(ItemType* item);
 	ItemType* dropItem(int index);
@@ -23,8 +27,6 @@ public:
 
 	void displayCharacter();
 
-	void attack(Creature& creature) {};
-	void receiveDamage(unsigned int dmage) {};
 	int getItemEffect(int slot) const { return 0; };
 };
 

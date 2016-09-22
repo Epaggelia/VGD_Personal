@@ -16,6 +16,20 @@ ZoneType::ZoneType(string description)
 	}
 }
 
+ZoneType::~ZoneType()
+{
+	for (int i = 0; i < _items.size(); i++)
+	{
+		delete _items[i];
+	}
+
+	for (int i = _enemies.size() - 1; i >= 0; i--)
+	{
+		delete _enemies[i];
+		_enemies.pop_back();
+	}
+}
+
 string ZoneType::getDescription() const
 {
 	return _description;
