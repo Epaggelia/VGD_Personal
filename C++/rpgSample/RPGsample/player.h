@@ -22,9 +22,14 @@ public:
 
 	void addItem(ItemType* item);
 	ItemType* dropItem(int index);
-	void listItems();
+	void listItems(bool equipmentOnly = false);
 	bool hasItems();
 
+	void equipItem(ItemType* item);
+	void unequipItem(int slot);
+	bool hasEquipment() const;
+	ItemType* findEquipment(int index);
+	
 	void displayCharacter();
 
 	int getItemEffect(int slot) const { return 0; };

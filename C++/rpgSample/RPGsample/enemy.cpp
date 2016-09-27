@@ -122,13 +122,8 @@ void Enemy::receiveDamage(unsigned int damage)
 	}
 }
 
-void Enemy::displayCharacter()
+void Enemy::listEquipment() const
 {
-	cout << endl << "Character sheet" << endl
-		<< "Name: " << _name << "\tType: " << _type << endl
-		<< "Level: " << _level << "\tExp: " << _exp << endl
-		<< "Health: " << _currHealth << "/" << _maxHealth << "\tGold: " << _gold << endl;
-
 	cout << endl << "Equipment" << endl;
 	if (_equipment[ItemType::HEAD])
 	{
@@ -169,4 +164,13 @@ void Enemy::displayCharacter()
 	{
 		cout << "L-Hand: Nothing.\tATK: 0" << endl;
 	}
+}
+void Enemy::displayCharacter()
+{
+	cout << endl << "Character sheet" << endl
+		<< "Name: " << _name << "\tType: " << _type << endl
+		<< "Level: " << _level << "\tExp: " << _exp << endl
+		<< "Health: " << _currHealth << "/" << _maxHealth << "\tGold: " << _gold << endl;
+
+	listEquipment();
 }

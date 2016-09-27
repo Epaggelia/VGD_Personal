@@ -32,8 +32,9 @@ public:
 	void setExp(unsigned int exp);
 	void setGold(unsigned int gold);
 
-	void equipItem(ItemType* item);
-	int getItemEffect(int slot) const;
+	virtual void equipItem(ItemType* item);
+	virtual int getItemEffect(int slot) const;
+	void listEquipment() const;
 
 	virtual void attack(Creature& creature);
 	virtual void receiveDamage(unsigned int damage);

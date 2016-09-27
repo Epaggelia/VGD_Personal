@@ -58,7 +58,7 @@ void WorldType::init()
 	_currentPosition = _world["CELL"];
 
 	_player = new Player();
-	_player->equipItem(new ItemType("Rock", ItemType::RHAND, 3));
+	_player->equipItem(new ItemType("Rock", ItemType::LHAND, 3));
 	_player->equipItem(new ItemType("Rags", ItemType::CHEST, 1));
 }
 
@@ -89,6 +89,11 @@ char WorldType::queryAction()
 		cout << "[M]ove ";
 	}
 
+	if (_player->hasItems() || _player->hasEquipment())
+	{
+		cout << "[E]quipment ";
+	}
+		
 	if (_currentPosition->hasItems())
 	{
 		cout << "[T]ake ";
@@ -126,7 +131,12 @@ char WorldType::queryAction()
 		{
 			cout << "You can't move right now." << endl;
 		}
-			break;
+		break;
+	case 'E':
+		if (_player->hasItems() || _player->hasEquipment())
+		{
+			equip();
+		}
 	case 'T':
 		if (_currentPosition->hasItems())
 		{
@@ -160,7 +170,7 @@ char WorldType::queryAction()
 
 void WorldType::attack()
 {
-	int choice  = -1;
+	int choice = -1;
 
 	cout << endl << "Which enemy would you like to attack." << endl;
 	_currentPosition->listEnemies();
@@ -220,6 +230,76 @@ void WorldType::move()
 	default:
 		cout << "I don't understand." << endl;
 	}
+}
+
+void WorldType::equip()
+{
+	char choice = '~';
+
+	cout << endl << "Equip a thing?" << endl;
+
+	if (_player->hasItems())
+		cout << "[E]quip ";
+
+	if (_player->hasEquipment())
+		cout << "[U]nequip ";
+
+	cout << endl << "> ";
+
+	cin >> choice;
+	choice = toupper(choice);
+
+	ItemType* item;
+	int index = -1;
+	switch (choice)
+	{
+	case 'E':
+		cout << "Equp a thing?" << endl;
+		_player->listItems(true);
+
+		if (!(cin >> index))
+		{
+			cout << "meh" << endl;
+			cin.clear();
+			cin.ignore(UINT_MAX, '\n');
+		}
+		else
+		{
+			item = _player->findEquipment(index);
+			if (item != nullptr)
+				_player->equipItem(item);
+			else
+				cout << "meh" << endl;
+		}
+
+		break;
+	case 'U':
+		cout << "Take it off." << endl <<
+			"[H]ead, [C]hest, [L]eft hand, [R]ight hand?" << endl << endl;
+
+		_player->listEquipment();
+
+		cout << endl << endl << "> ";
+		cin >> choice;
+		choice = toupper(choice);
+		switch (choice)
+		{
+		case 'H':
+			_player->unequipItem(ItemType::HEAD);
+			break;
+		case 'C':
+			_player->unequipItem(ItemType::CHEST);
+			break;
+		case 'L':
+			_player->unequipItem(ItemType::LHAND);
+			break;
+		case 'R':
+			_player->unequipItem(ItemType::RHAND);
+			break;
+		}
+		break;
+	}
+
 }
 
 void WorldType::take()

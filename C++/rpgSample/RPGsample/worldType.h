@@ -31,6 +31,8 @@ public:
 	//player actions
 	void attack();
 	void move();
+	void equip();
+	void unequip();
 	void take();
 	void drop();
 
