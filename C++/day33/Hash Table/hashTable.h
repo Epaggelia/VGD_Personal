@@ -1,12 +1,17 @@
 #ifndef __HASH_TABLE__
 #define __HASH_TABLE__
 
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
 template<typename T>
 class HashItem
 {
 public:
-	HashItem() : -key(-1) {}
-	~HashTable();
+	HashItem() : _key(-1) {}
+	~HashItem() {}
 
 	int getKey() const { return _key; }
 	void setKey(int k) { _key = k; }
@@ -40,7 +45,7 @@ class HashTable
 public:
 	HashTable(int size) : _size(0), _numElements(0), _table(nullptr)
 	{
-		_size =getNextPrimeNum(size);
+		_size = getNextPrimeNum(size);
 		_table = new HashItem<T>[_size];
 	}
 
@@ -67,7 +72,7 @@ public:
 			hash = hashFunction(hash);
 		}
 
-		_table[hasd].setKey(key);
+		_table[hash].setKey(key);
 		_table[hash].setData(data);
 		_numElements++;
 		return true;
@@ -98,6 +103,56 @@ public:
 		return false;
 	}
 
+	bool find(int key, T* data = nullptr)
+	{
+		int hash = hashFunction(key);
+		int original = hash;
+
+		while (_table[hash].getKey() != -1)
+		{
+			if (_table[hash].getKey() == key)
+			{
+				if (data != nullptr)
+				{
+					*data = _table[hash].getData();
+				}
+				return true;
+			}
+
+			hash++;
+			hash = hashFunction(hash);
+			if (original == hash)
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+
+	void displayTable() const
+	{
+		cout << "Table Contents" << endl;
+
+		for (int i = 0; i < _size; i++)
+		{
+			cout << "Position " << i << ": ";
+			if (_table[i].getKey() != -1)
+			{
+				cout << "Key: " << _table[i].getKey() << "\tValue: " << _table[i].getData();
+			}
+			else
+			{
+				cout << " Empty.";
+			}
+			cout << endl;
+		}
+	}
+
+	int size()
+	{
+		return _size;
+	}
+
 private:
 	bool isNumPrime(int val)
 	{
@@ -114,7 +169,7 @@ private:
 	int getNextPrimeNum(int val)
 	{
 		int temp;
-		for (int i = val+1; /**/; i++)
+		for (int i = val + 1; /**/; i++)
 		{
 			if (isNumPrime(i) == true)
 			{
